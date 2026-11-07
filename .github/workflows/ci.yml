@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  linux-selftest:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang make cmake ninja-build python3 libsdl2-dev libgl1-mesa-dev
+      - name: Compile desktop entry points
+        run: |
+          clang -std=c11 -Wall -Wextra -Werror $(pkg-config --cflags sdl2) \
+            -Iport/platform/desktop/upstream_gx \
+            -c port/platform/desktop/upstream_gx/settings.c -o /tmp/settings.o
+          clang -std=c11 -Wall -Wextra -Werror $(pkg-config --cflags sdl2) \
+            -Iport/platform/desktop/upstream_gx \
+            -c port/platform/desktop/upstream_gx/main_gx.c -o /tmp/main_gx.o
+      - name: HAL and device self-tests
+        run: make -C port selftest CC=clang
+      - name: Host audio sink regression
+        run: make -C port test-host-audio CC=clang
+      - name: Lifter and runtime regressions
+        working-directory: port
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 tests/test_gekko.py
+          python3 tests/test_lift_arithmetic.py
+          python3 tests/test_lift_cr.py
+          python3 tests/test_lift_psq.py
+          python3 tests/test_lift_fp.py
+          python3 tests/test_lift_memory.py
+          python3 tests/test_lift_lc_dma.py
+          python3 tests/test_lift_clock.py
+          python3 tests/test_runtime_dispatch.py --cc clang
+          python3 tests/test_irq_poll.py --cc clang
+          python3 tests/test_device_batch.py --cc clang
+          python3 tests/test_prepare_disc.py

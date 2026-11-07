@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="latency_labels">
+        <item>@string/latency_auto</item>
+        <item>@string/latency_50</item>
+        <item>@string/latency_80</item>
+        <item>@string/latency_120</item>
+        <item>@string/latency_200</item>
+        <item>@string/latency_350</item>
+    </string-array>
+
+    <string-array name="touch_mode_labels">
+        <item>@string/touch_mode_auto</item>
+        <item>@string/touch_mode_always</item>
+        <item>@string/touch_mode_never</item>
+    </string-array>
+</resources>

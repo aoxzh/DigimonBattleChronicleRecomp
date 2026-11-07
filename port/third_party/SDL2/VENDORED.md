@@ -1,0 +1,1 @@
+SDL2 2.32.10 (https://github.com/libsdl-org/SDL/releases/tag/release-2.32.10), zlib licence (LICENSE.txt). Unmodified source minus test/, docs/, IDE projects and android-project-ant; used to build the Android app (the desktop builds use the system/MSYS2 SDL2). The Java glue in port/android/app/src/main/java/org/libsdl/app comes from android-project/ here.

@@ -1,0 +1,26 @@
+{
+  "repository": "https://github.com/ethannicholas/gcn-recomp",
+  "commit": "3fad2f2deea7e563755819cf6f44da8743c61c55",
+  "license": "MIT",
+  "copyright": "Copyright (c) 2026 Ethan Nicholas",
+  "original_files_sha256": {
+    "runtime/hw/ax.cpp": "63029a979603217a3dc278856bf4f98aa57b28bd33401d1cdf8ca39f9a67597d",
+    "runtime/hw/ax.h": "6bb7bd0d0e4f650c9c489a815956569758f7604b19d58ce74a599eddc786acc7",
+    "LICENSE": "ff3a0215ca3efc9ae6e7e8a6a834fe2108139947a17e295856ebc60f4eeb11c3"
+  },
+  "local_changes": [
+    "ax.cpp includes the private borrowed-RAM/ARAM shim instead of upstream runtime.h",
+    "only measured newer GameCube AX hash 07f88145 is enabled by the adapter",
+    "channel-enable and volume-ramp bits adapted for newer AX protocol",
+    "voice parameter-block core remains 93 halfwords; game 0xEC stride comes from linked-list addresses; tail preserved",
+    "strict command-list word bounds, terminator and linked-list budgets; no upstream size+64 overread",
+    "deterministic mixer reset; mixed-block telemetry",
+    "compressor and other approximations explicitly reported as partial limitations",
+    "src_type 0 uses a 4-tap, 128-phase polyphase interpolator with generated (windowed-sinc) coefficients per coef_select instead of linear interpolation; DSP coefficient ROM values are not used and the approximation remains flagged",
+    "SRC advances phase/input before interpolating; no-SRC consumes exactly one input per output independently of ratio; chronological history is preserved across millisecond segments",
+    "wide interpolation products avoid signed overflow on full-range sample transitions; phase accumulation preserves 16.16 carry",
+    "enabled mixer routes write their final signed contribution to the corresponding PB depop field; disabled/stopped routes retain history"
+  ],
+  "excluded": ["dsp_hle.cpp heuristic AX selection and incomplete task-upload parser", "jaudio.cpp", "audio.cpp DTK/ring/backend pipeline", "upstream CPU/scheduler/MMIO/runtime"],
+  "reference_only": "Dolphin GPL sources were consulted for hash classification and hardware field meanings; no Dolphin implementation was transplanted. See port/analysis/upstream-audio.md."
+}

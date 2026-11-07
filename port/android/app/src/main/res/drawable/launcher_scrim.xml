@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Darkens the launcher art: lighter at the top where the title sits on the sky,
+     heavier towards the cards and the pinned Play bar. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient
+        android:angle="270"
+        android:centerColor="#80080A14"
+        android:endColor="#CC080A14"
+        android:startColor="#59080A14" />
+</shape>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Digimon Battle Chronicle</string>
+    <string name="launcher_subtitle">GameCube recompilation · Android</string>
+    <string name="about_icon">About this app</string>
+
+    <string name="disc_title">Game disc</string>
+    <string name="disc_none">No disc image selected</string>
+    <string name="disc_none_hint">Choose your own Japanese .iso or .gcm image. It is copied into the app\'s private storage, so no storage permission is needed.</string>
+    <string name="disc_choose">Choose disc image</string>
+    <string name="disc_change">Change image</string>
+    <string name="disc_scan">Scan Download folder</string>
+    <string name="disc_scan_hint">Some .iso files are hidden from the system picker. Scan Download to find them, or tap Search in the picker and type the file name.</string>
+    <string name="scan_intro">Choose the Download folder once. Android grants read access only to that folder, and the app remembers it for next time. Files stay where they are; the selected image is copied into the app.</string>
+    <string name="continue_label">Continue</string>
+    <string name="scan_choose_title">Choose an image to import</string>
+    <string name="scan_none">No .iso or .gcm files were found in the Download folder.</string>
+    <string name="scan_tree_error">Could not read the Download folder: %1$s</string>
+    <string name="scan_import_title">Import this image?</string>
+    <string name="scan_import_message">%1$s\n%2$s\n\nIt will be copied into the app\'s private storage.</string>
+    <string name="import_label">Import</string>
+    <string name="scan_permission_failed">Could not keep access to the folder. Choose Download again.</string>
+    <string name="restore_failed">The remembered image is no longer available. Choose it again.</string>
+    <string name="disc_checking">Checking image…</string>
+    <string name="disc_ready">Verified</string>
+    <string name="disc_error">Cannot use this image</string>
+    <string name="disc_copying">Importing image… %1$d%%</string>
+    <string name="disc_copy_detail">%1$s of %2$s</string>
+    <string name="disc_remembered">Remembered. This image is used automatically next time.</string>
+    <string name="disc_hint">Your own Japanese disc is required. No game data is included with this app.</string>
+    <string name="disc_file_meta">%1$s · %2$s</string>
+    <string name="disc_file_meta_unknown">Image file</string>
+    <string name="disc_meta_ok">%1$s · G2DJB2 rev 0 · verified</string>
+    <string name="disc_default_name">DigimonBattleChronicle.iso</string>
+
+    <string name="chip_none">Not selected</string>
+    <string name="chip_checking">Checking</string>
+    <string name="chip_ready">Ready</string>
+    <string name="chip_error">Error</string>
+
+    <string name="display_title">Display</string>
+    <string name="resolution_title">Internal resolution</string>
+    <string name="resolution_hint">Renders the 640 × 480 frame at a higher resolution. Use 1× to hold the GameCube\'s 60 fps; higher values need a faster GPU.</string>
+    <string name="res_1x">1×</string>
+    <string name="res_2x">2×</string>
+    <string name="res_3x">3×</string>
+    <string name="res_4x">4×</string>
+    <string name="aspect_title">Aspect ratio</string>
+    <string name="aspect_43">4:3 original</string>
+    <string name="aspect_stretch">Fill screen</string>
+    <string name="smooth_title">Smooth scaling</string>
+    <string name="smooth_hint">Linear filtering when the frame is scaled to the screen.</string>
+    <string name="fps_title">Show FPS</string>
+    <string name="fps_hint">A small frame-rate counter in the corner.</string>
+
+    <string name="audio_title">Audio</string>
+    <string name="sound_title">Sound</string>
+    <string name="sound_hint">Mute the game without closing it.</string>
+    <string name="volume_title">Volume</string>
+    <string name="latency_title">Audio latency</string>
+    <string name="latency_hint">How much sound is buffered ahead. Lower feels closer to the action; Auto only grows the buffer when the phone needs it.</string>
+    <string name="latency_auto">Auto (adaptive)</string>
+    <string name="latency_50">50 ms</string>
+    <string name="latency_80">80 ms</string>
+    <string name="latency_120">120 ms</string>
+    <string name="latency_200">200 ms</string>
+    <string name="latency_350">350 ms (most stable)</string>
+
+    <string name="touch_title">Touch controls</string>
+    <string name="touch_mode_title">On-screen buttons</string>
+    <string name="touch_mode_auto">Auto (hide with a controller)</string>
+    <string name="touch_mode_always">Always show</string>
+    <string name="touch_mode_never">Never show</string>
+    <string name="touch_opacity_title">Opacity</string>
+    <string name="touch_size_title">Size</string>
+    <string name="touch_haptics_title">Vibration</string>
+    <string name="touch_haptics_hint">Haptic feedback on button presses and for game rumble.</string>
+
+    <string name="saving_title">Saving</string>
+    <string name="memcard_title">Memory card in slot A</string>
+    <string name="memcard_hint">Stored as MemoryCardA.raw in the app data folder.</string>
+
+    <string name="about_title">About</string>
+    <string name="about_body">The GameCube program is statically recompiled to native code. Graphics use the gcn-recomp renderer over OpenGL ES 3.2 and audio uses the AX mixer. No game data ships with this app.</string>
+    <string name="version">Version %1$s</string>
+    <string name="reset_title">Reset settings</string>
+    <string name="reset_hint">Restore defaults. The imported disc image is kept.</string>
+    <string name="reset_button">Reset</string>
+    <string name="reset_done">Settings reset.</string>
+    <string name="reset_confirm">Reset all settings to their defaults?</string>
+
+    <string name="play">Play</string>
+    <string name="status_none">Choose a disc image to start</string>
+    <string name="status_ready">Ready · %1$s</string>
+    <string name="status_copying">Importing image… %1$d%%</string>
+    <string name="status_checking">Checking image…</string>
+    <string name="status_error">Fix the disc image to start</string>
+
+    <string name="about_dialog_title">Digimon Battle Chronicle</string>
+    <string name="about_dialog_body">A native Android port built from your own GameCube disc. Touch controls, Bluetooth controllers and foldable screens are supported.\n\nThis app contains recompiled game code generated from the disc; it does not include the disc image or any game assets. Use it only with a disc you own.\n\nRendering: gcn-recomp (OpenGL ES 3.2)\nAudio: AX mixer\nFrontend: SDL2\nUI: Material 3</string>
+    <string name="close">Close</string>
+    <string name="error_title">Something went wrong</string>
+    <string name="pick_failed">Could not read the selected file.</string>
+    <string name="invalid_ext">Choose an .iso or .gcm file.</string>
+    <string name="copy_failed">Could not import the image: %1$s</string>
+    <string name="not_enough_space">Not enough free space. Need %1$s, available %2$s.</string>
+    <string name="copy_cancelled">Import cancelled.</string>
+
+    <string name="disc_ok_detail">Digimon Battle Chronicle (G2DJB2, rev 0) · verified</string>
+    <string name="disc_compressed">Compressed images are not supported. Convert it to ISO first (Dolphin: right-click → Convert File).</string>
+    <string name="disc_small">The file is too small to be a GameCube disc image.</string>
+    <string name="disc_not_gc">Not a GameCube disc image.</string>
+    <string name="disc_wrong_game">This is %1$s (%2$s). The port needs Digimon Battle Chronicle (G2DJB2).</string>
+    <string name="disc_wrong_rev">Disc revision %1$d found; the port needs revision 0.</string>
+    <string name="disc_dol">main.dol on this disc differs from the recompiled build (modified or bad dump).</string>
+    <string name="disc_io">Cannot read the image.</string>
+</resources>

@@ -1,0 +1,69 @@
+# OOM 调查埋点：memdbg panic 两版 + memdbg 包装入口 + dlmalloc 入口/出口 + 游戏堆管理器入口
+80281d0c
+80281d2c
+80281d74
+8028dd70
+8028e298
+8028f120
+80296a70
+80297fc8
+802bcfe4
+802bd490
+802bd49c
+802befa4
+802c7a84
+802c7a88
+802c7b64
+802cab24
+802dcf78
+802dd028
+802dd6d8
+802ddb1c
+802ddb44
+802c7ae4
+# r26: OSWakeupThread 函数入口（观察 retrace 唤醒为何只生效一次）
+802c8778
+# r45: DSP mail 助手区（区分游戏侧/handler 侧等待者）
+802af5c0
+802af5d0
+802af5f4
+802af60c
+# r48: 音频检查点自旋现场取证
+802a49fc
+# r53: 0x802af660 帧处理子路径
+802af9a0
+802af68c
+802af978
+# r65: 逐帧 sync 睡眠入口（武装投递点）
+802af9d0
+# r86: DSP 任务分派树回调载体 + 同步变量 thunk + 帧处理分支（B14 信号链定位）
+802afa20
+802afa7c
+802afaa0
+802afb94
+802afcac
+802afc38
+802afd50
+802a4924
+802a4894
+802a48cc
+80251740
+802af698
+802af6c0
+# r91: Lua luaH_newkey 碰撞链遍历（主线程卡死点）：0x8026c318=链走一步，0x8026c328=链退出（复位）
+8026c318
+8026c328
+# r92: Lua rehash/setnodevector 取证（表计数前后状态）
+8026bbfc
+8026bea0
+8026bfc4
+8026bfcc
+8026bfe0
+8020ee24
+8020eea0
+8020a31c
+802132ac
+802125d0
+802bc90c
+802b8540
+802bbffc

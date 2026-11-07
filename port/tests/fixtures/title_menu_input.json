@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "events": [
+    {"frame": 120, "button": "START", "state": "press"},
+    {"frame": 121, "button": "START", "state": "release"},
+    {"frame": 300, "button": "A", "state": "press"},
+    {"frame": 301, "button": "A", "state": "release"},
+    {"frame": 420, "button": "DOWN", "state": "press"},
+    {"frame": 421, "button": "DOWN", "state": "release"},
+    {"frame": 540, "button": "A", "state": "press"},
+    {"frame": 541, "button": "A", "state": "release"}
+  ]
+}

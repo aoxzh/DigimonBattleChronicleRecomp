@@ -1,0 +1,55 @@
+# Game content you supply, and everything generated from it, stays local.
+# This list is a safeguard, not a substitute for reviewing what you stage.
+*.iso
+*.gcm
+*.rvz
+*.wia
+*.gcz
+*.ciso
+*.wbfs
+*.dol
+*.elf
+*.raw
+*.bin
+port/extracted/
+port/disc.iso
+
+# Recompiler output (python port/tools/lift_dol.py / port/packaging/build.py).
+# recomp/gen_prefix.h is tracked: it is a fixed header from tools/gekko/lift.py.
+port/recomp/generated/
+port/recomp/blocks.c
+port/recomp/block_decls.h
+port/recomp/recomp_entry.c
+port/recomp/coverage.json
+
+# Builds and packages: built programs contain code translated from your disc.
+port/build*/
+port/dist/
+port/packaging/work/
+port/packaging/DigimonBattleGC/
+port/packaging/build-report-*.txt
+port/android/.gradle/
+port/android/build/
+port/android/app/build/
+port/android/app/.cxx/
+port/android/local.properties
+*.apk
+*.aab
+*.exe
+*.dll
+*.so
+*.o
+*.obj
+*.zip
+*.7z
+
+# Logs, captures and local tooling
+*.log
+*.wav
+logs/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.vscode/
+.idea/

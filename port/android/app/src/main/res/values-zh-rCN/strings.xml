@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">数码宝贝 战斗编年史</string>
+    <string name="launcher_subtitle">GameCube 静态重编译 · Android</string>
+    <string name="about_icon">关于本应用</string>
+
+    <string name="disc_title">游戏镜像</string>
+    <string name="disc_none">尚未选择镜像</string>
+    <string name="disc_none_hint">选择你自己的日版 .iso 或 .gcm 镜像。文件会复制到应用专属目录，不需要存储权限。</string>
+    <string name="disc_choose">选择游戏镜像</string>
+    <string name="disc_change">更换镜像</string>
+    <string name="disc_scan">扫描 Download 目录</string>
+    <string name="disc_scan_hint">部分 .iso 不会出现在系统选择器里。可以扫描 Download 目录，或点选择器右上角的搜索并输入文件名。</string>
+    <string name="scan_intro">请选择一次 Download 文件夹。Android 只会授予该文件夹的读取权限，应用会记住这个选择。文件仍留在原处；选中的镜像会复制到应用专属目录。</string>
+    <string name="continue_label">继续</string>
+    <string name="scan_choose_title">选择要导入的镜像</string>
+    <string name="scan_none">Download 目录中没有找到 .iso 或 .gcm 文件。</string>
+    <string name="scan_tree_error">无法读取 Download 目录：%1$s</string>
+    <string name="scan_import_title">导入这个镜像？</string>
+    <string name="scan_import_message">%1$s\n%2$s\n\n镜像会复制到应用专属目录。</string>
+    <string name="import_label">导入</string>
+    <string name="scan_permission_failed">无法保留文件夹访问权限，请重新选择 Download 目录。</string>
+    <string name="restore_failed">上次记住的镜像已不可用，请重新选择。</string>
+    <string name="disc_checking">正在校验镜像…</string>
+    <string name="disc_ready">已验证</string>
+    <string name="disc_error">无法使用此镜像</string>
+    <string name="disc_copying">正在导入镜像… %1$d%%</string>
+    <string name="disc_copy_detail">%1$s / %2$s</string>
+    <string name="disc_remembered">已记住镜像位置，下次启动会自动使用这个镜像。</string>
+    <string name="disc_hint">需要你自己的日版光盘。本应用不附带任何游戏数据。</string>
+    <string name="disc_file_meta">%1$s · %2$s</string>
+    <string name="disc_file_meta_unknown">镜像文件</string>
+    <string name="disc_meta_ok">%1$s · G2DJB2 rev 0 · 已验证</string>
+    <string name="disc_default_name">DigimonBattleChronicle.iso</string>
+
+    <string name="chip_none">未选择</string>
+    <string name="chip_checking">校验中</string>
+    <string name="chip_ready">就绪</string>
+    <string name="chip_error">错误</string>
+
+    <string name="display_title">画面</string>
+    <string name="resolution_title">内部分辨率</string>
+    <string name="resolution_hint">把 640 × 480 的画面渲染到更高分辨率。想稳定跑满 NGC 的 60 帧请用 1×；数值越高，对 GPU 要求越高。</string>
+    <string name="res_1x">1×</string>
+    <string name="res_2x">2×</string>
+    <string name="res_3x">3×</string>
+    <string name="res_4x">4×</string>
+    <string name="aspect_title">宽高比</string>
+    <string name="aspect_43">4:3 原始比例</string>
+    <string name="aspect_stretch">铺满屏幕</string>
+    <string name="smooth_title">平滑缩放</string>
+    <string name="smooth_hint">画面缩放时使用线性过滤。</string>
+    <string name="fps_title">显示帧率</string>
+    <string name="fps_hint">在角落显示一个小型帧率计数器。</string>
+
+    <string name="audio_title">声音</string>
+    <string name="sound_title">启用声音</string>
+    <string name="sound_hint">无需退出游戏即可静音。</string>
+    <string name="volume_title">音量</string>
+    <string name="latency_title">音频延迟</string>
+    <string name="latency_hint">声音提前缓冲的时长。数值越低越跟手；自动模式只在手机需要时增大缓冲。</string>
+    <string name="latency_auto">自动（自适应）</string>
+    <string name="latency_50">50 毫秒</string>
+    <string name="latency_80">80 毫秒</string>
+    <string name="latency_120">120 毫秒</string>
+    <string name="latency_200">200 毫秒</string>
+    <string name="latency_350">350 毫秒（最稳定）</string>
+
+    <string name="touch_title">触屏控制</string>
+    <string name="touch_mode_title">屏幕按键</string>
+    <string name="touch_mode_auto">自动（连接手柄时隐藏）</string>
+    <string name="touch_mode_always">始终显示</string>
+    <string name="touch_mode_never">隐藏</string>
+    <string name="touch_opacity_title">透明度</string>
+    <string name="touch_size_title">尺寸</string>
+    <string name="touch_haptics_title">振动反馈</string>
+    <string name="touch_haptics_hint">按键按下时振动，并接收游戏内的震动手感。</string>
+
+    <string name="saving_title">存档</string>
+    <string name="memcard_title">A 槽记忆卡</string>
+    <string name="memcard_hint">以 MemoryCardA.raw 保存在应用数据目录。</string>
+
+    <string name="about_title">关于</string>
+    <string name="about_body">GameCube 程序已被静态重编译为原生代码。画面通过 gcn-recomp 渲染器运行在 OpenGL ES 3.2 上，声音使用 AX 混音器。本应用不附带任何游戏数据。</string>
+    <string name="version">版本 %1$s</string>
+    <string name="reset_title">恢复默认设置</string>
+    <string name="reset_hint">恢复所有默认值。已导入的游戏镜像会保留。</string>
+    <string name="reset_button">恢复</string>
+    <string name="reset_done">已恢复默认设置。</string>
+    <string name="reset_confirm">要把所有设置恢复为默认值吗？</string>
+
+    <string name="play">开始游戏</string>
+    <string name="status_none">选择游戏镜像后开始</string>
+    <string name="status_ready">已就绪 · %1$s</string>
+    <string name="status_copying">正在导入镜像… %1$d%%</string>
+    <string name="status_checking">正在校验镜像…</string>
+    <string name="status_error">请先修复游戏镜像</string>
+
+    <string name="about_dialog_title">数码宝贝 战斗编年史</string>
+    <string name="about_dialog_body">这是一个从你自己的 GameCube 光盘构建的原生 Android 移植版。支持触屏按键、蓝牙手柄和折叠屏。\n\n本应用包含根据光盘生成的已重编译游戏代码，但不包含光盘镜像或任何游戏资源。请仅与你拥有的光盘一起使用。\n\n渲染：gcn-recomp（OpenGL ES 3.2）\n音频：AX 混音器\n前端：SDL2\n界面：Material 3</string>
+    <string name="close">关闭</string>
+    <string name="error_title">出现问题</string>
+    <string name="pick_failed">无法读取所选文件。</string>
+    <string name="invalid_ext">请选择 .iso 或 .gcm 文件。</string>
+    <string name="copy_failed">导入镜像失败：%1$s</string>
+    <string name="not_enough_space">存储空间不足。需要 %1$s，当前可用 %2$s。</string>
+    <string name="copy_cancelled">已取消导入。</string>
+
+    <string name="disc_ok_detail">数码宝贝 战斗编年史（G2DJB2，rev 0）· 校验通过</string>
+    <string name="disc_compressed">不支持压缩镜像。请先转换为 ISO（Dolphin：右键 → Convert File）。</string>
+    <string name="disc_small">文件太小，不是有效的 GameCube 光盘镜像。</string>
+    <string name="disc_not_gc">不是 GameCube 光盘镜像。</string>
+    <string name="disc_wrong_game">这是 %1$s（%2$s）。本移植版需要《数码宝贝 战斗编年史》（G2DJB2）。</string>
+    <string name="disc_wrong_rev">检测到光盘修订版 %1$d；本移植版需要修订版 0。</string>
+    <string name="disc_dol">光盘中的 main.dol 与已重编译版本不一致（可能被修改或镜像损坏）。</string>
+    <string name="disc_io">无法读取镜像。</string>
+</resources>
