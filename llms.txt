@@ -1,0 +1,55 @@
+# Digimon Battle Chronicle Recomp
+
+> Native static-recompilation port of the Japanese GameCube fighting game *Digimon Battle Chronicle* (デジモンバトルクロニクル, G2DJB2 revision 0; released overseas as *Digimon Rumble Arena 2*) for Windows, Linux and Android. It runs without an emulator, interpreter or BIOS, and is built locally from the user's own disc image.
+
+Repository: DigimonBattleChronicleRecomp (GitHub)
+
+## Key facts
+
+- **Game:** *Digimon Battle Chronicle* (デジモンバトルクロニクル), the Japanese release of *Digimon Rumble Arena 2*. Only the Japanese GameCube release G2DJB2, revision 0, is supported.
+- **Method:** static recompilation of PowerPC (Gekko 750CL) machine code to C, then compiled to native x86-64 or ARM64. About 166,000 basic blocks and 873,000 instructions.
+- **Platforms:** Windows 10/11 x64 (OpenGL 3.3), Linux x86-64 (clang, SDL2, OpenGL 3.3), Android 8.0+ arm64 (OpenGL ES 3.2). Windows builds use MSYS2 CLANG64; MSVC is not supported.
+- **Features:** four-player local battles, controllers, keyboard, touch controls, desktop and Android launchers, internal resolution scaling from 1x to 4x.
+- **Saves:** standard GameCube memory card images (`MemoryCardA.raw`), interchangeable with Dolphin.
+- **Measured performance:** 58–60 fields/s in four-player battles on Snapdragon 8 Gen 2 / Adreno 740 at 1x and 4x internal resolution, with zero audio underruns including battle loads. The game runs NTSC at 59.94 fields/s.
+- **License:** this project's code is MIT. Third-party components keep their licenses (see `docs/LICENSING.md`). The repository contains no game program, generated C, art, audio or saves, and offers no ROM/ISO downloads or prebuilt programs.
+- **Build outputs:** a built program contains code translated from the user's disc and must not be redistributed. A content-free self-build kit can be shared via `python3 port/packaging/make_kit.py`.
+
+## FAQ
+
+### Is this an emulator?
+
+No. The game's PowerPC machine code is translated to C at build time and compiled into a native x86-64 / ARM64 program. There is no emulator, interpreter or BIOS at runtime.
+
+### Which disc is required?
+
+The Japanese GameCube release *Digimon Battle Chronicle*, game ID G2DJB2, revision 0. `.iso` and `.gcm` are supported directly; Dolphin `.rvz`, `.gcz` and `.ciso` images are imported to ISO first. `.wia` must be converted to ISO in Dolphin. The build rejects a different game ID, revision or `main.dol` fingerprint.
+
+### Does it run *Digimon Rumble Arena 2*?
+
+Only the Japanese release of the same game. Other regional releases, other revisions, and the PlayStation 2 or Xbox versions are not supported.
+
+### Does the repository include the game?
+
+No. It has no game program, generated C, art, audio or saves, no ROM/ISO downloads, and no prebuilt executables or APKs.
+
+### Can saves be used with Dolphin?
+
+Yes. Saves are standard 2 MiB raw GameCube memory card images named `MemoryCardA.raw`, and can be copied between this port and Dolphin.
+
+### How do I build it?
+
+Windows: double-click `port/packaging/Build-Windows.bat` and choose a disc image. Linux: `python3 port/packaging/build.py <disc>`. Android: run the desktop build once, then build the APK in `port/android` with the Android SDK, NDK 29, CMake 3.31 and Gradle 9.6+.
+
+## Documentation
+
+- [简体中文 README](README.md)
+- [English README](README.en.md)
+- [日本語 README](README.ja.md)
+- [Desktop gameplay, controls and command line](port/platform/desktop/upstream_gx/PLAYING.md)
+- [Android build notes](port/android/README.md)
+- [Licensing and provenance](docs/LICENSING.md)
+
+## Keywords
+
+Digimon Battle Chronicle, デジモンバトルクロニクル, 数码宝贝大乱斗, Digimon Rumble Arena 2, GameCube native port, GameCube static recompilation, G2DJB2, no emulator, Windows, Linux, Android, four-player, Dolphin memory card.
