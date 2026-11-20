@@ -454,11 +454,6 @@ static GcBlockFn gc_dispatch_lookup(uint32_t ea)
 
 void gc_dispatch(uint32_t target_ea)
 {
-    /* With translation off, the low 26-bit address is the physical alias of the
-     * same RAM the 0x80000000-based block was lifted from (the SDK rfi stub can
-     * return through it). Map it before anything compares or looks it up. */
-    if (target_ea < 0x01800000u)
-        target_ea |= 0x80000000u;
     /* Log the uncorrected return state before applying the eager IRQ shadow. */
     gc_fp_trace_irq_resume(target_ea);
     gc_fp_context_resume_irq(target_ea);

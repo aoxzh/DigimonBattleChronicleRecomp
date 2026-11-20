@@ -53,7 +53,8 @@ def _dol_extent(dol_header: bytes) -> int:
 
 
 def validate_iso(path: Path) -> dict:
-    """Validate the exact DOL the generated code was lifted from."""    with path.open("rb") as f:
+    """Validate the exact DOL the generated code was lifted from."""
+    with path.open("rb") as f:
         header = f.read(0x440)
         if len(header) != 0x440:
             raise ValueError("file is too small to be a GameCube disc image")
