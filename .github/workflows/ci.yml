@@ -1,8 +1,12 @@
 name: CI
 
 on:
+  # Branch pushes and pull requests only: release tags are built and tested
+  # separately, so a bad tag cannot keep failing this workflow.
   push:
+    branches: ["**"]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   linux-selftest:
