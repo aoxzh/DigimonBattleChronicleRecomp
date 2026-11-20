@@ -226,9 +226,9 @@ void tab_game(State &st, SDL_Window *window) {
     ImGui::TextWrapped("%s %s", st.disc_ok ? "OK:" : "!", st.disc_msg);
     ImGui::PopStyleColor();
 #ifdef __ANDROID__
-    ImGui::TextDisabled("Copy your own Japanese disc image (G2DJB2, .iso) to the phone, e.g. Downloads, then choose it here.");
+    ImGui::TextDisabled("Copy your own disc image (.iso) to the phone, e.g. Downloads, then choose it here.");
 #else
-    ImGui::TextDisabled("Tip: drag and drop the disc image onto this window. Your own Japanese disc (G2DJB2) is required.");
+    ImGui::TextDisabled("Tip: drag and drop the disc image onto this window. Your own disc image is required.");
 #endif
 
     section("Startup");

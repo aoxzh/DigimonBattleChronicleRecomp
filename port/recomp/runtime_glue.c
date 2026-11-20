@@ -14,6 +14,18 @@ extern uint8_t gc_ram[0x01800000];
 #include <stdlib.h>
 #include <string.h>
 
+/* Per-disc values written by packaging/build.py before compiling. The fallbacks
+ * keep a plain compile (CI) on the Japanese disc. */
+#if defined(__has_include)
+#  if __has_include("disc_profile.h")
+#    include "disc_profile.h"
+#  endif
+#endif
+#ifndef GC_FP_CONTEXT_PC1
+#define GC_FP_CONTEXT_PC1 0x802c010cu
+#define GC_FP_CONTEXT_PC2 0x802c0110u
+#endif
+
 /* ---- CPU 上下文唯一实例 ---- */
 GcCtx gc;
 
@@ -318,7 +330,7 @@ static void gc_fp_trace_irq_entry(uint32_t context, uint32_t vector)
 static void gc_fp_trace_irq_resume(uint32_t target_ea)
 {
     if (!gc_fp_trace_enabled() || !gc_fp_irq_trace_n
-        || (gc.pc != 0x802c010cu && gc.pc != 0x802c0110u)) return;
+        || (gc.pc != GC_FP_CONTEXT_PC1 && gc.pc != GC_FP_CONTEXT_PC2)) return;
     uint32_t context = gc_rd32(0xD4u) & 0x1FFFFFFFu;
     for (unsigned i = gc_fp_irq_trace_n; i > 0; --i) {
         GcFpIrqTrace *t = &gc_fp_irq_trace[i - 1u];
@@ -397,7 +409,7 @@ static void gc_fp_context_resume_irq(uint32_t target_ea)
 {
     /* These two generated blocks end in the actual OSLoadContext rfi.
      * A normal branch to the same guest PC must not consume an IRQ frame. */
-    if (gc.pc != 0x802c010cu && gc.pc != 0x802c0110u) return;
+    if (gc.pc != GC_FP_CONTEXT_PC1 && gc.pc != GC_FP_CONTEXT_PC2) return;
     uint32_t context = gc_rd32(0xD4u) & 0x1FFFFFFFu;
     GcFpContextFrame *top = NULL;
     for (unsigned i = 0; i < GC_FP_CONTEXT_CAP; ++i) {
@@ -442,6 +454,11 @@ static GcBlockFn gc_dispatch_lookup(uint32_t ea)
 
 void gc_dispatch(uint32_t target_ea)
 {
+    /* With translation off, the low 26-bit address is the physical alias of the
+     * same RAM the 0x80000000-based block was lifted from (the SDK rfi stub can
+     * return through it). Map it before anything compares or looks it up. */
+    if (target_ea < 0x01800000u)
+        target_ea |= 0x80000000u;
     /* Log the uncorrected return state before applying the eager IRQ shadow. */
     gc_fp_trace_irq_resume(target_ea);
     gc_fp_context_resume_irq(target_ea);

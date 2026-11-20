@@ -6,7 +6,7 @@ It carries the project's recompiler, GameCube hardware layer, renderer, audio mi
 
 ## Requirements
 
-- An image of the Japanese GameCube disc **G2DJB2, revision 0**: `.iso` / `.gcm`, or Dolphin `.rvz` / `.gcz` / `.ciso` (imported to ISO first; `.wia` must be converted to ISO in Dolphin). RVZ import needs Python's `zstandard` (`python -m pip install zstandard`).
+- An image of the Japanese GameCube disc **G2DJB2, revision 0** or the USA disc **GD6EB2, revision 0**: `.iso` / `.gcm`, or Dolphin `.rvz` / `.gcz` / `.ciso` (imported to ISO first; `.wia` must be converted to ISO in Dolphin). RVZ import needs Python's `zstandard` (`python -m pip install zstandard`).
 - About 2 GB of free disk space; a first build takes roughly 5–15 minutes.
 - A GPU with OpenGL 3.3.
 
@@ -45,7 +45,7 @@ python3 build.py "/path/to/Digimon Battle Chronicle (Japan).iso"
 
 ## What the builder does
 
-1. Checks the disc: ID `G2DJB2`, revision 0, and the `main.dol` fingerprint the port was tested with. A mismatch stops the build instead of producing a broken port.
+1. Checks the disc: ID `G2DJB2` (Japan) or `GD6EB2` (USA), revision 0, and the `main.dol` fingerprint the port was tested with. A mismatch stops the build instead of producing a broken port.
 2. Translates the PowerPC code of `main.dol` to C with `src/tools/lift_dol.py`: about 166,000 basic blocks, byte-identical to the output the project was tested with.
 3. Compiles it with CMake and clang into the `DigimonBattleGC` folder (program, `PLAYING.md` and third-party licences).
 
@@ -65,7 +65,7 @@ The renderer and AX mixing come from gcn-recomp (MIT, `src/third_party/gcn-recom
 
 ## 需要
 
-- 日版光盘镜像《デジモンバトルクロニクル》`G2DJB2`，版本 0，`.iso`/`.gcm`/`.rvz`/`.gcz`/`.ciso`。RVZ 导入需要 Python 的 `zstandard`（`python -m pip install zstandard`）；WIA 请先在 Dolphin 里右键 → 转换文件 → ISO。
+- 日版光盘镜像《デジモンバトルクロニクル》`G2DJB2`，或美版 *Digimon Rumble Arena 2* `GD6EB2`，版本 0，`.iso`/`.gcm`/`.rvz`/`.gcz`/`.ciso`。RVZ 导入需要 Python 的 `zstandard`（`python -m pip install zstandard`）；WIA 请先在 Dolphin 里右键 → 转换文件 → ISO。
 - 约 2 GB 空闲磁盘，首次构建约 5–15 分钟。
 - 支持 OpenGL 3.3 的显卡。
 
@@ -104,7 +104,7 @@ python3 build.py "/path/to/Digimon Battle Chronicle (Japan).iso"
 
 ## 构建做了什么
 
-1. 检查光盘：ID `G2DJB2`、版本 0、`main.dol` 指纹与本移植测试用的一致（不一致会拒绝，避免改版/坏档导致的奇怪问题）。
+1. 检查光盘：ID `G2DJB2`（日版）或 `GD6EB2`（美版）、版本 0、`main.dol` 指纹与本移植测试用的一致（不一致会拒绝，避免改版/坏档导致的奇怪问题）。
 2. 用 `src/tools/lift_dol.py` 把 `main.dol` 的 PowerPC 代码翻译成 C（约 16.6 万个代码块，结果与项目测试用的逐字节一致）。
 3. 用 CMake + clang 编译，生成 `DigimonBattleGC` 文件夹（程序、玩法说明 `PLAYING.md`、第三方许可证）。
 

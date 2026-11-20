@@ -31,13 +31,40 @@ import time
 import zipfile
 from pathlib import Path
 
-GAME_ID = b"G2DJB2"
-# main.dol up to the end of its last section; the generated code and the
-# coverage below were produced from exactly this file.
-DOL_SIZE = 3591200
-DOL_FNV = 0x5FD8E0C4B410A2D2
-EXPECT_BLOCKS = 165889
-EXPECT_INSTRUCTIONS = 873283
+# Every supported original disc. The generated code and the coverage counts were
+# produced from exactly these files; a different dump is rejected.
+DISCS = {
+    "G2DJB2": {
+        "id": "G2DJB2",
+        "name": "Digimon Battle Chronicle",
+        "region": "Japan",
+        "revision": 0,
+        "dol_size": 3591200,
+        "dol_fnv": 0x5FD8E0C4B410A2D2,
+        "blocks": 165889,
+        "instructions": 873283,
+        "roots": "extra_roots.txt",
+        "probes": "probe_blocks.txt",
+        "fp_pc1": 0x802C010C,
+        "fp_pc2": 0x802C0110,
+        "ext_stub": 0x802BD894,
+    },
+    "GD6EB2": {
+        "id": "GD6EB2",
+        "name": "Digimon Rumble Arena 2",
+        "region": "USA",
+        "revision": 0,
+        "dol_size": 3525376,
+        "dol_fnv": 0xCB35CE92BADD1C48,
+        "blocks": 164864,
+        "instructions": 866383,
+        "roots": "extra_roots_usa.txt",
+        "probes": "probe_blocks_usa.txt",
+        "fp_pc1": 0x802C006C,
+        "fp_pc2": 0x802C0070,
+        "ext_stub": 0x802BD7F4,
+    },
+}
 COMPRESSED = (".rvz", ".wia", ".gcz", ".ciso", ".wbfs", ".nfs")
 IMPORTABLE = (".rvz", ".gcz", ".ciso")
 DISC_EXTS = (".iso", ".gcm") + IMPORTABLE
@@ -100,8 +127,9 @@ def disc_header(path):
     return head[:6], head[7], head[0x20:0x40].split(b"\0")[0].decode("ascii", "replace")
 
 
-def read_disc_dol(path):
-    """Validate the disc image and return main.dol (to the end of its last section)."""
+def read_disc_dol(path, prof):
+    """Validate the disc image for this profile and return main.dol (to the end of
+    its last section)."""
     if path.lower().endswith(COMPRESSED):
         fail("this compressed Dolphin image type is not supported; convert it to ISO first "
              "(Dolphin: right-click the game > Convert File > ISO).")
@@ -115,11 +143,11 @@ def read_disc_dol(path):
             fail("this file is not a GameCube disc image (.iso/.gcm)")
         game_id, rev = head[:6], head[7]
         name = head[0x20:0x40].split(b"\0")[0].decode("ascii", "replace")
-        if game_id != GAME_ID:
+        if game_id.decode("ascii", "replace") != prof["id"]:
             fail(f"this disc is {name} ({game_id.decode('ascii', 'replace')}); "
-                 "the kit needs Digimon Battle Chronicle, Japan (G2DJB2)")
-        if rev != 0:
-            fail(f"disc revision {rev} found; the kit was made for revision 0")
+                 f"this build accepts {prof['name']} ({prof['region']}, {prof['id']})")
+        if rev != prof["revision"]:
+            fail(f"disc revision {rev} found; this build was made for revision {prof['revision']}")
         dol_off = struct.unpack_from(">I", head, 0x420)[0]
         f.seek(dol_off)
         hdr = f.read(0x100)
@@ -128,8 +156,8 @@ def read_disc_dol(path):
         size = max([0x100] + [o + s for o, s in zip(offs, sizes) if s])
         f.seek(dol_off)
         dol = f.read(size)
-    if len(dol) != DOL_SIZE or fnv64(dol) != DOL_FNV:
-        fail("main.dol on this disc differs from the one the kit was made for "
+    if len(dol) != prof["dol_size"] or fnv64(dol) != prof["dol_fnv"]:
+        fail("main.dol on this disc differs from the one this build was made for "
              "(modified or bad dump). Re-dump the disc or try another image.")
     return dol
 
@@ -155,11 +183,11 @@ def scan_for_discs(kit):
                 continue
             seen.add(key)
             if p.suffix.lower() in IMPORTABLE:
-                if "digimon" in p.name.lower() or "g2dj" in p.name.lower():
+                if "digimon" in p.name.lower() or any(i.lower() in p.name.lower() for i in DISCS):
                     found.append(p)
                 continue
             h = disc_header(p)
-            if h and h[0] == GAME_ID:
+            if h and h[0].decode("ascii", "replace") in DISCS:
                 found.append(p)
     return found
 
@@ -321,16 +349,24 @@ def build(args, kit, src, version, state):
                      else str(prepare_disc.default_cache_dir()))
         cache = str(prepare_disc.cache_path(Path(disc), Path(cache_dir)))
         run([sys.executable, os.path.join(src, "tools", "prepare_disc.py"),
-             disc, "--cache-dir", cache_dir])
+             disc, "--cache-dir", cache_dir, "--any"])
         disc = cache
         say(f"      compressed input imported to {cache}")
     _STEP[0] = "checking the disc image"
-    dol = read_disc_dol(disc)
+    header = disc_header(disc)
+    if not header:
+        fail("this file is not a GameCube disc image (.iso/.gcm)")
+    game_id = header[0].decode("ascii", "replace")
+    prof = DISCS.get(game_id)
+    if not prof:
+        supported = ", ".join(f"{p['name']} ({p['id']}, {p['region']})" for p in DISCS.values())
+        fail(f"this disc is {header[2]} ({game_id}); this build accepts {supported}")
+    dol = read_disc_dol(disc, prof)
     os.makedirs(work, exist_ok=True)
     dol_path = os.path.join(work, "main.dol")
     with open(dol_path, "wb") as f:
         f.write(dol)
-    say("      Digimon Battle Chronicle (G2DJB2, rev 0): OK")
+    say(f"      {prof['name']} ({prof['id']}, {prof['region']}, rev {prof['revision']}): OK")
 
     _STEP[0] = "translating PowerPC code (lift_dol.py)"
     say("[2/5] Translating the game's PowerPC code to C")
@@ -340,13 +376,28 @@ def build(args, kit, src, version, state):
     env = dict(os.environ, PYTHONPATH=src, PYTHONUTF8="1")
     tools = os.path.join(src, "tools")
     run([sys.executable, os.path.join(tools, "lift_dol.py"), dol_path, "-o", recomp,
-         "--extra-roots-file", os.path.join(tools, "extra_roots.txt"),
-         "--hook-blocks", os.path.join(tools, "probe_blocks.txt")], env=env)
+         "--extra-roots-file", os.path.join(tools, prof["roots"]),
+         "--hook-blocks", os.path.join(tools, prof["probes"])], env=env)
     with open(os.path.join(recomp, "coverage.json"), encoding="utf-8") as f:
         cov = json.load(f)
-    if cov.get("blocks") != EXPECT_BLOCKS or cov.get("instructions") != EXPECT_INSTRUCTIONS:
+    if cov.get("blocks") != prof["blocks"] or cov.get("instructions") != prof["instructions"]:
         fail(f"translation coverage {cov.get('blocks')} blocks / {cov.get('instructions')} instructions "
-             f"differs from the tested {EXPECT_BLOCKS} / {EXPECT_INSTRUCTIONS}")
+             f"differs from the tested {prof['blocks']} / {prof['instructions']} for {prof['id']}")
+
+    # The runtime validates the disc and restores interrupted FP state at addresses
+    # that differ per disc; the generated header carries this build's values.
+    with open(os.path.join(recomp, "disc_profile.h"), "w", encoding="utf-8", newline="\n") as f:
+        f.write("/* generated by packaging/build.py for %s; do not edit */\n" % game_id)
+        f.write("#ifndef GC_DISC_PROFILE_H\n#define GC_DISC_PROFILE_H\n")
+        f.write(f"#define GC_DISC_ID \"{prof['id']}\"\n")
+        f.write(f"#define GC_DISC_NAME \"{prof['name']}\"\n")
+        f.write(f"#define GC_DISC_REGION \"{prof['region']}\"\n")
+        f.write(f"#define GC_DISC_DOL_SIZE {prof['dol_size']}u\n")
+        f.write(f"#define GC_DISC_DOL_FNV 0x{prof['dol_fnv']:016X}ull\n")
+        f.write(f"#define GC_FP_CONTEXT_PC1 0x{prof['fp_pc1']:08x}u\n")
+        f.write(f"#define GC_FP_CONTEXT_PC2 0x{prof['fp_pc2']:08x}u\n")
+        f.write(f"#define GC_EXT_STUB 0x{prof['ext_stub']:08x}u\n")
+        f.write("#endif\n")
 
     _STEP[0] = "compiling (cmake/ninja)"
     say("[3/5] Compiling (several minutes the first time)")
@@ -393,10 +444,11 @@ def build(args, kit, src, version, state):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Build Digimon Battle Chronicle from your own disc.")
+    ap = argparse.ArgumentParser(description="Build Digimon Battle Chronicle / Rumble Arena 2 "
+                                             "from your own disc.")
     ap.add_argument("disc", nargs="?",
-                    help="your Digimon Battle Chronicle (Japan) disc image: .iso/.gcm/.rvz/.gcz/.ciso "
-                         "(omit to pick or find one)")
+                    help="your disc image: .iso/.gcm/.rvz/.gcz/.ciso (JP G2DJB2 or USA GD6EB2; "
+                         "omit to pick or find one)")
     ap.add_argument("--out", help="output folder (default: DigimonBattleGC next to build.py)")
     ap.add_argument("--work", help="build folder (default: work next to build.py)")
     ap.add_argument("--jobs", type=int, default=0, help="parallel compile jobs (default: all cores)")

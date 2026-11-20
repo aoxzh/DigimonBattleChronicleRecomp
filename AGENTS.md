@@ -4,7 +4,7 @@ Notes for human contributors and coding agents alike.
 
 ## What this is
 
-A static recompilation of the Japanese GameCube game *Digimon Battle Chronicle* (G2DJB2, revision 0): `port/tools/lift_dol.py` translates the disc's `main.dol` from PowerPC to C, and `port/hal/` plus `port/third_party/gcn-recomp` provide the GameCube hardware, renderer and audio. Desktop builds use CMake (`port/CMakeLists.txt`); Android uses Gradle (`port/android`).
+A static recompilation of the GameCube game *Digimon Battle Chronicle* (G2DJB2, Japanese) and *Digimon Rumble Arena 2* (GD6EB2, USA), both revision 0: `port/tools/lift_dol.py` translates the disc's `main.dol` from PowerPC to C, and `port/hal/` plus `port/third_party/gcn-recomp` provide the GameCube hardware, renderer and audio. Desktop builds use CMake (`port/CMakeLists.txt`); Android uses Gradle (`port/android`).
 
 ## Reproducing a build for a user
 

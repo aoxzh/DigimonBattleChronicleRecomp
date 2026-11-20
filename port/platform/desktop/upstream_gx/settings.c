@@ -14,12 +14,26 @@
 #define make_dir(p) mkdir((p), 0755)
 #endif
 
-/* The generated code was lifted from this main.dol: FNV-1a 64 over the bytes
- * up to the end of its last section (the extracted file adds 224 bytes of
- * padding, which hal_boot_read_disc_dol does not read). */
-#define GAME_ID "G2DJB2"
-#define GAME_DOL_SIZE 3591200u
-#define GAME_DOL_FNV 0x5FD8E0C4B410A2D2ull
+/* The generated code was lifted from one specific main.dol: FNV-1a 64 over the
+ * bytes up to the end of its last section (the extracted file adds 224 bytes of
+ * padding, which hal_boot_read_disc_dol does not read). packaging/build.py writes
+ * recomp/disc_profile.h for the disc it built; the fallbacks below keep a plain
+ * compile of this file working (Japanese disc). */
+#if defined(__has_include)
+#  if __has_include("../../../recomp/disc_profile.h")
+#    include "../../../recomp/disc_profile.h"
+#  endif
+#endif
+#ifndef GC_DISC_ID
+#define GC_DISC_ID "G2DJB2"
+#define GC_DISC_NAME "Digimon Battle Chronicle"
+#define GC_DISC_REGION "Japan"
+#define GC_DISC_DOL_SIZE 3591200u
+#define GC_DISC_DOL_FNV 0x5FD8E0C4B410A2D2ull
+#define GC_FP_CONTEXT_PC1 0x802c010cu
+#define GC_FP_CONTEXT_PC2 0x802c0110u
+#define GC_EXT_STUB 0x802bd894u
+#endif
 
 static const char *const input_keys[GC_IN_COUNT] = {
     "A", "B", "X", "Y", "Z", "L", "R", "Start", "DUp", "DDown", "DLeft", "DRight",
@@ -289,22 +303,23 @@ int settings_check_disc(const char *path, char *msg, size_t size)
     memcpy(id, h, 6); id[6] = 0;
     for (int i = 0; i < 32; i++) name[i] = h[0x20 + i] >= 0x20 && h[0x20 + i] < 0x7F ? (char)h[0x20 + i] : (h[0x20 + i] ? '?' : 0);
     name[32] = 0;
-    if (strcmp(id, GAME_ID)) {
-        snprintf(msg, size, "This disc is %s (%s). The port needs Digimon Battle Chronicle (" GAME_ID ").", name, id);
+    if (strcmp(id, GC_DISC_ID)) {
+        snprintf(msg, size, "This disc is %s (%s). This build needs %s (" GC_DISC_ID ", " GC_DISC_REGION ").",
+                 name, id, GC_DISC_NAME);
         return 0;
     }
-    if (h[7] != 0) { snprintf(msg, size, "Disc revision %u found; the port was built from revision 0.", h[7]); return 0; }
+    if (h[7] != 0) { snprintf(msg, size, "Disc revision %u found; this build was made for revision 0.", h[7]); return 0; }
     size_t n = 0;
     unsigned char *dol = hal_boot_read_disc_dol(path, &n);
     if (!dol) { snprintf(msg, size, "Cannot read main.dol from the disc image (truncated file?)."); return 0; }
     unsigned long long fnv = 14695981039346656037ull;
     for (size_t i = 0; i < n; i++) { fnv ^= dol[i]; fnv *= 1099511628211ull; }
     free(dol);
-    if (n != GAME_DOL_SIZE || fnv != GAME_DOL_FNV) {
+    if (n != GC_DISC_DOL_SIZE || fnv != GC_DISC_DOL_FNV) {
         snprintf(msg, size, "main.dol on this disc differs from the recompiled build (modified or bad dump).");
         return 0;
     }
-    snprintf(msg, size, "Digimon Battle Chronicle (" GAME_ID ", rev 0) - ready%s.",
-             imported ? " (imported ISO)" : "");
+    snprintf(msg, size, "%s (" GC_DISC_ID ", " GC_DISC_REGION ", rev 0) - ready%s.",
+             GC_DISC_NAME, imported ? " (imported ISO)" : "");
     return 1;
 }

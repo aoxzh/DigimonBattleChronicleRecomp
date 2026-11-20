@@ -2,7 +2,8 @@
 
 The desktop runner reads the disc directly for DI/FST/DVD traffic. The
 generated CPU code is still built from the exact `main.dol` that was lifted, so
-the image must be the Japanese `G2DJB2` revision 0.
+the image must be the Japanese `G2DJB2` revision 0 or the USA `GD6EB2`
+revision 0.
 
 ## Formats
 
@@ -23,6 +24,7 @@ RVZ needs Python 3 and the `zstandard` module:
 ```sh
 python -m pip install zstandard
 python tools/prepare_disc.py "/path/to/Digimon Battle Chronicle (Japan).rvz"
+# or "Digimon Rumble Arena 2 (USA).rvz"
 ```
 
 On Windows, `tools\prepare-disc.bat` is a drag-and-drop wrapper. On Linux/macOS
@@ -44,9 +46,9 @@ The cache name is `<data dir>/cache/<image stem>.iso`, matching
 Portable builds (`portable.txt` beside the executable) use `<exe>/user/cache/`
 on the C side; pass `--cache-dir` if you use that layout.
 
-The helper verifies the DVD magic, game ID `G2DJB2`, revision 0, the lifted
-DOL size (3,591,200 bytes) and its FNV-1a hash before declaring the image
-usable. A partial/failed extraction is removed.
+The helper verifies the DVD magic, game ID `G2DJB2` (Japan) or `GD6EB2`
+(USA), revision 0, the lifted DOL size and its FNV-1a hash before declaring the
+image usable. A partial/failed extraction is removed.
 
 ## What this does not do
 

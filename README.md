@@ -2,7 +2,7 @@
 
 **English** · [简体中文](README.zh.md) · [日本語](README.ja.md)
 
-**Runs the Japanese GameCube fighting game *Digimon Battle Chronicle* (デジモンバトルクロニクル, G2DJB2) natively on Windows, Linux and Android.** The game was released in North America and Europe as *Digimon Rumble Arena 2*; this project targets the Japanese disc, revision 0. Its PowerPC machine code is statically recompiled to C and built, together with this project's GameCube hardware layer, into x86-64 and ARM64 programs. No emulator, no interpreter, no BIOS. You supply your own disc image.
+**Runs the Japanese and USA GameCube releases of *Digimon Battle Chronicle* / *Digimon Rumble Arena 2* natively on Windows, Linux and Android.** This project supports the Japanese disc (デジモンバトルクロニクル, `G2DJB2`) and the USA disc (*Digimon Rumble Arena 2*, `GD6EB2`), both revision 0. Its PowerPC machine code is statically recompiled to C and built, together with this project's GameCube hardware layer, into x86-64 and ARM64 programs. No emulator, no interpreter, no BIOS. You supply your own disc image.
 
 Controllers, keyboard and touch all work, four-player battles included, with a launcher on desktop and on Android.
 
@@ -20,7 +20,7 @@ MIT ([licensing](docs/LICENSING.md)) · Windows 10/11 x64 · Linux x86-64 · And
 
 | Item | Fact |
 |---|---|
-| Game | Japanese release *Digimon Battle Chronicle* (デジモンバトルクロニクル, G2DJB2 revision 0); released overseas as *Digimon Rumble Arena 2* |
+| Game | Japanese *Digimon Battle Chronicle* (デジモンバトルクロニクル, G2DJB2 rev 0) and USA *Digimon Rumble Arena 2* (GD6EB2 rev 0) |
 | Method | About 166,000 PowerPC basic blocks statically recompiled to C and built as native x86-64 / ARM64; no emulator, interpreter or BIOS |
 | Platforms | Windows 10/11 x64 · Linux x86-64 · Android 8+ arm64 |
 | Players | Four-player local battles; controllers, keyboard, touch; desktop and Android launchers |
@@ -34,13 +34,13 @@ This repository has the PowerPC-to-C recompiler (`port/tools/lift_dol.py`, `port
 
 **It contains no game program, no generated C, no art, audio or saves, and it offers no ROM/ISO downloads or prebuilt programs.** Your machine generates them from your own disc. The resulting program contains code translated from the disc: keep it for yourself and do not distribute it.
 
-You need an image of the Japanese disc **G2DJB2, revision 0**: `.iso` / `.gcm`, or Dolphin `.rvz` / `.gcz` / `.ciso` (imported to ISO first; convert `.wia` to ISO in Dolphin). The build checks the game ID, revision and the `main.dol` fingerprint and stops on a mismatch.
+You need an image of the Japanese disc **G2DJB2, revision 0** or the USA disc **GD6EB2, revision 0**: `.iso` / `.gcm`, or Dolphin `.rvz` / `.gcz` / `.ciso` (imported to ISO first; convert `.wia` to ISO in Dolphin). The build checks the game ID, revision and the `main.dol` fingerprint and stops on a mismatch.
 
 ## Getting started
 
 ### Download a builder kit (no game data)
 
-[Releases](../../releases/latest) carry `DigimonBattleGC-builder-<version>.zip`: the recompiler, hardware layer, launcher and build scripts of this repository, with no game data, no generated code and no prebuilt program. Unzip it and use the Windows or Linux steps below; building the Android APK needs the full repository. Inside the kit the build scripts sit at its root (`Build-Windows.bat`, `build.py`, `DigimonBattleGC/`); the paths below are for a clone.
+[Releases](../../releases/latest) carry `DigimonBattleGC-builder-<version>.zip`: the recompiler, hardware layer, launcher and build scripts of this repository, with no game data, no generated code and no prebuilt program. The same kit builds the Japanese and USA discs. Unzip it and use the Windows or Linux steps below; building the Android APK needs the full repository. Inside the kit the build scripts sit at its root (`Build-Windows.bat`, `build.py`, `DigimonBattleGC/`); the paths below are for a clone.
 
 ### Windows (one click)
 
@@ -96,7 +96,7 @@ Choose the disc image in the phone's launcher (or scan the Download folder); it 
 | Same, two players | Sustained battle about **59.9 fields/s** | 1x |
 | Windows desktop | Full battle and return to character select, zero SDL playback underruns | adaptive 80–350 ms audio buffer |
 
-The game runs NTSC interlaced at 59.94 fields per second, so fields per second is the honest measure. Four-player battles once ran at 34 fields/s: each of the eight HUD portrait texture copies per frame made the CPU wait for the previous frame's vertex transform. Copies now land in RAM two frames later, as upstream gcn-recomp does.
+The game runs NTSC interlaced at 59.94 fields per second, so fields per second is the honest measure. These numbers are from the Japanese release; the USA build uses the same runtime and is verified to run battles. Four-player battles once ran at 34 fields/s: each of the eight HUD portrait texture copies per frame made the CPU wait for the previous frame's vertex transform. Copies now land in RAM two frames later, as upstream gcn-recomp does.
 
 ## Playing
 
@@ -120,7 +120,7 @@ No. At build time, `lift_dol.py` translates the PowerPC machine code on the game
 
 ### Which version of the game do I need? Does *Digimon Rumble Arena 2* work?
 
-Only the Japanese GameCube release *Digimon Battle Chronicle*, **G2DJB2 revision 0**. The build checks the game ID, revision and `main.dol` fingerprint, so overseas releases, other revisions and the PlayStation 2 or Xbox versions are rejected. `.iso` and `.gcm` are supported, as are Dolphin `.rvz` / `.gcz` / `.ciso` images (imported to ISO first); convert `.wia` to ISO in Dolphin.
+The Japanese GameCube release *Digimon Battle Chronicle* (**G2DJB2 revision 0**) and the USA release *Digimon Rumble Arena 2* (**GD6EB2 revision 0**). The build checks the game ID, revision and `main.dol` fingerprint, so other regions, other revisions and the PlayStation 2 or Xbox versions are rejected. `.iso` and `.gcm` are supported, as are Dolphin `.rvz` / `.gcz` / `.ciso` images (imported to ISO first); convert `.wia` to ISO in Dolphin.
 
 ### Does the repository include the game or a prebuilt program?
 

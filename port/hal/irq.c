@@ -13,6 +13,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* Per-disc constant written by packaging/build.py; the fallback is the JP disc. */
+#if defined(__has_include)
+#  if __has_include("../recomp/disc_profile.h")
+#    include "../recomp/disc_profile.h"
+#  endif
+#endif
+#ifndef GC_EXT_STUB
+#define GC_EXT_STUB 0x802bd894u
+#endif
+
 /* PI 寄存器影子（0x00 cause / 0x04 mask；FIFO 三件套给 GX） */
 static uint32_t pi_cause;
 static uint32_t pi_mask;
@@ -306,7 +316,7 @@ static uint32_t irq_table_entry(unsigned exc)
 static int ext_handler_ready(void)
 {
     uint32_t h = irq_table_entry(4);
-    return h != 0 && h != 0x802BD894u;
+    return h != 0 && h != GC_EXT_STUB;
 }
 /* DEC handler 表[8] 无效时挂起注入：游戏 alarm 系统未就绪，真机此时同样无
  * handler 可走；我们的虚拟时间快于真实，会提前到达下溢（实测表全零）。 */

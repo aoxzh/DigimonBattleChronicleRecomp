@@ -53,8 +53,7 @@ def _dol_extent(dol_header: bytes) -> int:
 
 
 def validate_iso(path: Path) -> dict:
-    """Validate the exact DOL the generated code was lifted from."""
-    with path.open("rb") as f:
+    """Validate the exact DOL the generated code was lifted from."""    with path.open("rb") as f:
         header = f.read(0x440)
         if len(header) != 0x440:
             raise ValueError("file is too small to be a GameCube disc image")
@@ -93,6 +92,17 @@ def validate_iso(path: Path) -> dict:
         "dol_size": GAME_DOL_SIZE,
         "dol_fnv": f"{GAME_DOL_FNV:016x}",
     }
+
+
+def basic_info(path: Path) -> dict:
+    """Check only that this is a GameCube image; build.py validates the disc."""
+    with path.open("rb") as f:
+        header = f.read(0x40)
+    if len(header) != 0x40:
+        raise ValueError("file is too small to be a GameCube disc image")
+    if header[0x1C:0x20] != GC_MAGIC:
+        raise ValueError("missing GameCube DVD magic (not an ISO/GCM?)")
+    return {"game_id": header[0:6].decode("ascii", "replace"), "revision": header[7]}
 
 
 def cache_path(image: Path, cache_dir: Path) -> Path:
@@ -196,6 +206,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("image", type=Path, help="disc image (.iso/.gcm/.rvz/.gcz/.ciso)")
     parser.add_argument("--check", action="store_true", help="validate only; write nothing")
+    parser.add_argument("--any", action="store_true",
+                        help="import without checking which game/revision (build.py checks it after)")
     parser.add_argument("--force", action="store_true", help="re-extract an existing cache")
     parser.add_argument("--out", type=Path, help="explicit output ISO (default: data cache)")
     parser.add_argument("--cache-dir", type=Path, help="override the data cache directory")
@@ -208,18 +220,21 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.check:
         try:
-            info = validate_iso(image)
+            info = basic_info(image) if args.any else validate_iso(image)
         except (OSError, ValueError) as exc:
             print(f"error: {exc}", file=sys.stderr)
             return 1
-        print(f"OK: {info['game_id']} rev {info['revision']}, main.dol {info['dol_size']} bytes "
-              f"fnv {info['dol_fnv']}")
+        if args.any:
+            print(f"OK: {info['game_id']} rev {info['revision']}")
+        else:
+            print(f"OK: {info['game_id']} rev {info['revision']}, main.dol {info['dol_size']} bytes "
+                  f"fnv {info['dol_fnv']}")
         return 0
 
     suffix = image.suffix.lower()
     if suffix in (".iso", ".gcm"):
         try:
-            info = validate_iso(image)
+            info = basic_info(image) if args.any else validate_iso(image)
         except (OSError, ValueError) as exc:
             print(f"error: {exc}", file=sys.stderr)
             return 1
@@ -240,7 +255,7 @@ def main(argv: list[str] | None = None) -> int:
     output = (args.out or cache_path(image, cache_dir)).expanduser()
     if output.exists() and not args.force:
         try:
-            info = validate_iso(output)
+            info = basic_info(output) if args.any else validate_iso(output)
         except (OSError, ValueError) as exc:
             print(f"existing import is invalid: {exc}", file=sys.stderr)
             print("re-run with --force to replace it", file=sys.stderr)
@@ -259,7 +274,7 @@ def main(argv: list[str] | None = None) -> int:
             _decode_gcz(image, output)
         else:
             _decode_ciso(image, output)
-        info = validate_iso(output)
+        info = basic_info(output) if args.any else validate_iso(output)
     except (OSError, ValueError, SystemExit) as exc:
         if output.exists():
             output.unlink()
@@ -268,7 +283,10 @@ def main(argv: list[str] | None = None) -> int:
         print(f"error: {exc}", file=sys.stderr)
         return 1
     print(f"OK: imported {output.resolve()}")
-    print(f"    {info['game_id']} rev {info['revision']}, main.dol {info['dol_size']} bytes fnv {info['dol_fnv']}")
+    if args.any:
+        print(f"    {info['game_id']} rev {info['revision']}")
+    else:
+        print(f"    {info['game_id']} rev {info['revision']}, main.dol {info['dol_size']} bytes fnv {info['dol_fnv']}")
     return 0
 
 

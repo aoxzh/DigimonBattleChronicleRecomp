@@ -1,19 +1,19 @@
 # Digimon Battle Chronicle Recomp
 
-> Native static-recompilation port of the Japanese GameCube fighting game *Digimon Battle Chronicle* (デジモンバトルクロニクル, G2DJB2 revision 0; released overseas as *Digimon Rumble Arena 2*) for Windows, Linux and Android. It runs without an emulator, interpreter or BIOS, and is built locally from the user's own disc image.
+> Native static-recompilation port of the GameCube fighting game *Digimon Battle Chronicle* (デジモンバトルクロニクル, G2DJB2) and its USA release *Digimon Rumble Arena 2* (GD6EB2), both revision 0, for Windows, Linux and Android. It runs without an emulator, interpreter or BIOS, and is built locally from the user's own disc image.
 
 Repository: DigimonBattleChronicleRecomp (GitHub)
 
 ## Key facts
 
-- **Game:** *Digimon Battle Chronicle* (デジモンバトルクロニクル), the Japanese release of *Digimon Rumble Arena 2*. Only the Japanese GameCube release G2DJB2, revision 0, is supported.
+- **Game:** *Digimon Battle Chronicle* (デジモンバトルクロニクル, Japanese release) and *Digimon Rumble Arena 2* (USA release). Both GameCube discs, G2DJB2 and GD6EB2, revision 0, are supported; other regions, other revisions and the PlayStation 2/Xbox versions are rejected.
 - **Method:** static recompilation of PowerPC (Gekko 750CL) machine code to C, then compiled to native x86-64 or ARM64. About 166,000 basic blocks and 873,000 instructions.
 - **Platforms:** Windows 10/11 x64 (OpenGL 3.3), Linux x86-64 (clang, SDL2, OpenGL 3.3), Android 8.0+ arm64 (OpenGL ES 3.2). Windows builds use MSYS2 CLANG64; MSVC is not supported.
 - **Features:** four-player local battles, controllers, keyboard, touch controls, desktop and Android launchers, internal resolution scaling from 1x to 4x.
 - **Saves:** standard GameCube memory card images (`MemoryCardA.raw`), interchangeable with Dolphin.
 - **Measured performance:** 58–60 fields/s in four-player battles on Snapdragon 8 Gen 2 / Adreno 740 at 1x and 4x internal resolution, with zero audio underruns including battle loads. The game runs NTSC at 59.94 fields/s.
 - **License:** this project's code is MIT. Third-party components keep their licenses (see `docs/LICENSING.md`). The repository contains no game program, generated C, art, audio or saves, and offers no ROM/ISO downloads or prebuilt programs.
-- **Build outputs:** a built program contains code translated from the user's disc and must not be redistributed. A content-free self-build kit is attached to GitHub Releases (tag `v1.0.0`, `DigimonBattleGC-builder-1.0.0.zip`); it carries no game data, no generated code and no prebuilt program.
+- **Build outputs:** a built program contains code translated from the user's disc and must not be redistributed. A content-free self-build kit is attached to GitHub Releases (tag `v1.1.0`, `DigimonBattleGC-builder-1.1.0.zip`); it carries no game data, no generated code and no prebuilt program.
 
 ## FAQ
 
@@ -23,11 +23,11 @@ No. The game's PowerPC machine code is translated to C at build time and compile
 
 ### Which disc is required?
 
-The Japanese GameCube release *Digimon Battle Chronicle*, game ID G2DJB2, revision 0. `.iso` and `.gcm` are supported directly; Dolphin `.rvz`, `.gcz` and `.ciso` images are imported to ISO first. `.wia` must be converted to ISO in Dolphin. The build rejects a different game ID, revision or `main.dol` fingerprint.
+The Japanese GameCube release *Digimon Battle Chronicle* (game ID G2DJB2, revision 0) or the USA release *Digimon Rumble Arena 2* (GD6EB2, revision 0). `.iso` and `.gcm` are supported directly; Dolphin `.rvz`, `.gcz` and `.ciso` images are imported to ISO first. `.wia` must be converted to ISO in Dolphin. The build rejects a different game ID, revision or `main.dol` fingerprint.
 
 ### Does it run *Digimon Rumble Arena 2*?
 
-Only the Japanese release of the same game. Other regional releases, other revisions, and the PlayStation 2 or Xbox versions are not supported.
+Yes, the USA release (GD6EB2, revision 0) is supported as well as the Japanese disc. Other regional releases, other revisions, and the PlayStation 2 or Xbox versions are not supported.
 
 ### Does the repository include the game?
 
@@ -52,4 +52,4 @@ Windows: double-click `port/packaging/Build-Windows.bat` and choose a disc image
 
 ## Keywords
 
-Digimon Battle Chronicle, デジモンバトルクロニクル, 数码宝贝大乱斗, Digimon Rumble Arena 2, GameCube native port, GameCube static recompilation, G2DJB2, no emulator, Windows, Linux, Android, four-player, Dolphin memory card.
+Digimon Battle Chronicle, デジモンバトルクロニクル, 数码宝贝大乱斗, Digimon Rumble Arena 2, GameCube native port, GameCube static recompilation, G2DJB2, GD6EB2, USA, no emulator, Windows, Linux, Android, four-player, Dolphin memory card.

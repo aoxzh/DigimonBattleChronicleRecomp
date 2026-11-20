@@ -12,7 +12,7 @@ cmake --build /tmp/digimon-upstream-gx-build --target main_gx -j6
 
 ### Self-build kit (for other people)
 
-`python3 port/packaging/make_kit.py` writes `port/dist/DigimonBattleGC-builder-<version>.zip` plus `SHA256SUMS`: this project's source, the lifter and its versioned inputs, and the build scripts, with nothing from the disc (the packager refuses lifter output, disc/DOL files, images, logs and card images). Recipients run `build-windows.ps1 <disc.iso>` (Windows, MSYS2) or `python3 build.py <disc.iso>` (Linux), which checks the disc (G2DJB2 rev 0 and the main.dol fingerprint), lifts it, verifies the coverage counts and builds a `DigimonBattleGC` folder. Only share the kit; the program it builds contains code translated from the disc. See `port/packaging/README.md`.
+`python3 port/packaging/make_kit.py` writes `port/dist/DigimonBattleGC-builder-<version>.zip` plus `SHA256SUMS`: this project's source, the lifter and its versioned inputs, and the build scripts, with nothing from the disc (the packager refuses lifter output, disc/DOL files, images, logs and card images). Recipients run `build-windows.ps1 <disc.iso>` (Windows, MSYS2) or `python3 build.py <disc.iso>` (Linux), which checks the disc (G2DJB2 Japan or GD6EB2 USA, rev 0, and the main.dol fingerprint), lifts it, verifies the coverage counts and builds a `DigimonBattleGC` folder. Only share the kit; the program it builds contains code translated from the disc. See `port/packaging/README.md`.
 
 ### Windows
 
@@ -29,7 +29,7 @@ SDL and the C/C++ runtime are linked statically, so `build\windows\main_gx.exe` 
 
 ## Launcher and settings
 
-Run `main_gx` with no arguments to open the launcher: choose the disc image (Browse, drag and drop, or auto-detected `disc.iso`), then set window size, fullscreen, internal resolution (1x-4x of 640x480), 4:3 or stretched aspect, smooth scaling, VSync, sound/volume, and controller/keyboard mapping. Only the disc image is needed; `main.dol` is read from it and the disc is checked against the recompiled build (Digimon Battle Chronicle, `G2DJB2` rev 0). Compressed Dolphin images (`.rvz`, `.wia`, `.gcz`, ...) must be converted to ISO first.
+Run `main_gx` with no arguments to open the launcher: choose the disc image (Browse, drag and drop, or auto-detected `disc.iso`), then set window size, fullscreen, internal resolution (1x-4x of 640x480), 4:3 or stretched aspect, smooth scaling, VSync, sound/volume, and controller/keyboard mapping. Only the disc image is needed; `main.dol` is read from it and the disc is checked against the recompiled build (Digimon Battle Chronicle / Rumble Arena 2, `G2DJB2` or `GD6EB2`, rev 0). Compressed Dolphin images (`.rvz`, `.wia`, `.gcz`, ...) must be converted to ISO first.
 
 | Command | Effect |
 |---|---|

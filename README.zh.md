@@ -2,7 +2,7 @@
 
 [English](README.md) · **简体中文** · [日本語](README.ja.md)
 
-**在 Windows、Linux 和 Android 上原生运行 GameCube 日版《デジモンバトルクロニクル》（G2DJB2）。** 这款游戏在欧美以 *Digimon Rumble Arena 2* 之名发行。游戏的 PowerPC 机器码被静态重编译成 C，再和本项目的 GameCube 硬件层一起编译成 x86-64 / ARM64 原生程序。没有模拟器、不解释执行，也不需要 BIOS。游戏需要你自己的光盘镜像。
+**在 Windows、Linux 和 Android 上原生运行 GameCube 日版《デジモンバトルクロニクル》（G2DJB2）与美版 *Digimon Rumble Arena 2*（GD6EB2）。** 两个版本均为 revision 0。游戏的 PowerPC 机器码被静态重编译成 C，再和本项目的 GameCube 硬件层一起编译成 x86-64 / ARM64 原生程序。没有模拟器、不解释执行，也不需要 BIOS。游戏需要你自己的光盘镜像。
 
 手柄、键盘和触屏都能玩，四人同屏对战，桌面端和手机端各有一个启动器。
 
@@ -20,7 +20,7 @@ MIT（[许可说明](docs/LICENSING.md)）· Windows 10/11 x64 · Linux x86-64 �
 
 | 项目 | 事实 |
 |---|---|
-| 游戏 | 日版《デジモンバトルクロニクル》（G2DJB2 版本 0）；欧美版名为 *Digimon Rumble Arena 2* |
+| 游戏 | 日版《デジモンバトルクロニクル》（G2DJB2 版本 0）与美版 *Digimon Rumble Arena 2*（GD6EB2 版本 0） |
 | 运行方式 | 约 16.6 万个 PowerPC 代码块静态重编译成 C，编译为原生 x86-64 / ARM64；无模拟器、无解释器、无 BIOS |
 | 平台 | Windows 10/11 x64 · Linux x86-64 · Android 8+ arm64 |
 | 对战 | 四人同屏；手柄、键盘、触屏；桌面与 Android 启动器 |
@@ -34,13 +34,13 @@ MIT（[许可说明](docs/LICENSING.md)）· Windows 10/11 x64 · Linux x86-64 �
 
 **仓库不包含任何游戏程序、重编译生成的 C、美术、音频或存档，也不提供 ROM/ISO 下载或预编译程序。** 这些都由你的电脑从你自己的光盘镜像生成，生成的程序含有从光盘翻译出的代码，只供自己使用，不要分发。
 
-你需要：日版《デジモンバトルクロニクル》**G2DJB2 版本 0** 的镜像，`.iso` / `.gcm`，或 Dolphin 的 `.rvz` / `.gcz` / `.ciso`（会先导入成 ISO；`.wia` 请先在 Dolphin 里转成 ISO）。构建会校验光盘 ID、版本和 `main.dol` 指纹，对不上就停下。
+你需要：日版《デジモンバトルクロニクル》**G2DJB2 版本 0** 或美版 *Digimon Rumble Arena 2* **GD6EB2 版本 0** 的镜像，`.iso` / `.gcm`，或 Dolphin 的 `.rvz` / `.gcz` / `.ciso`（会先导入成 ISO；`.wia` 请先在 Dolphin 里转成 ISO）。构建会校验光盘 ID、版本和 `main.dol` 指纹，对不上就停下。
 
 ## 开始
 
 ### 下载自建包（不含游戏数据）
 
-[Releases](../../releases/latest) 提供 `DigimonBattleGC-builder-<版本>.zip`：与本仓库相同的重编译器、硬件层、启动器和构建脚本，不含任何游戏数据、生成代码或预编译程序。解压后按下面的 Windows 或 Linux 步骤构建；构建 Android APK 需要完整仓库。自建包内的构建脚本在包根目录（`Build-Windows.bat`、`build.py`、`DigimonBattleGC/`），下文的仓库路径以 clone 的仓库为准。
+[Releases](../../releases/latest) 提供 `DigimonBattleGC-builder-<版本>.zip`：与本仓库相同的重编译器、硬件层、启动器和构建脚本，不含任何游戏数据、生成代码或预编译程序，同一个自建包可构建日版或美版。解压后按下面的 Windows 或 Linux 步骤构建；构建 Android APK 需要完整仓库。自建包内的构建脚本在包根目录（`Build-Windows.bat`、`build.py`、`DigimonBattleGC/`），下文的仓库路径以 clone 的仓库为准。
 
 ### Windows（一键）
 
@@ -120,7 +120,7 @@ adb install -r app/build/outputs/apk/release/app-release.apk
 
 ### 需要哪个版本的游戏？欧美版 *Digimon Rumble Arena 2* 可以吗？
 
-只支持 GameCube 日版《デジモンバトルクロニクル》**G2DJB2 版本 0**。构建会校验光盘 ID、版本和 `main.dol` 指纹，欧美版、其他修订版或 PS2/Xbox 版都会在构建时被拒绝。镜像格式支持 `.iso` / `.gcm`，以及 Dolphin 的 `.rvz` / `.gcz` / `.ciso`（会先导入成 ISO）；`.wia` 请先在 Dolphin 里转成 ISO。
+只支持 GameCube 日版《デジモンバトルクロニクル》**G2DJB2 版本 0** 和美版 *Digimon Rumble Arena 2* **GD6EB2 版本 0**。构建会校验光盘 ID、版本和 `main.dol` 指纹，其他区域、其他修订版或 PS2/Xbox 版都会在构建时被拒绝。镜像格式支持 `.iso` / `.gcm`，以及 Dolphin 的 `.rvz` / `.gcz` / `.ciso`（会先导入成 ISO）；`.wia` 请先在 Dolphin 里转成 ISO。
 
 ### 仓库里有游戏或现成程序吗？
 
