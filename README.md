@@ -1,52 +1,56 @@
-# Digimon Battle Chronicle Recomp · 《数码宝贝大乱斗》GameCube 原生移植
+# Digimon Battle Chronicle Recomp · native GameCube port of Digimon Rumble Arena 2
 
-**简体中文** · [English](README.en.md) · [日本語](README.ja.md)
+**English** · [简体中文](README.zh.md) · [日本語](README.ja.md)
 
-**在 Windows、Linux 和 Android 上原生运行 GameCube 日版《デジモンバトルクロニクル》（G2DJB2）。** 这款游戏在欧美以 *Digimon Rumble Arena 2* 之名发行。游戏的 PowerPC 机器码被静态重编译成 C，再和本项目的 GameCube 硬件层一起编译成 x86-64 / ARM64 原生程序。没有模拟器、不解释执行，也不需要 BIOS。游戏需要你自己的光盘镜像。
+**Runs the Japanese GameCube fighting game *Digimon Battle Chronicle* (デジモンバトルクロニクル, G2DJB2) natively on Windows, Linux and Android.** The game was released in North America and Europe as *Digimon Rumble Arena 2*; this project targets the Japanese disc, revision 0. Its PowerPC machine code is statically recompiled to C and built, together with this project's GameCube hardware layer, into x86-64 and ARM64 programs. No emulator, no interpreter, no BIOS. You supply your own disc image.
 
-手柄、键盘和触屏都能玩，四人同屏对战，桌面端和手机端各有一个启动器。
+Controllers, keyboard and touch all work, four-player battles included, with a launcher on desktop and on Android.
 
-**[开始](#开始)** · [支持的平台](#支持的平台) · [实测性能](#实测性能) · [工作原理](#工作原理) · [常见问题](#常见问题)
+**[Getting started](#getting-started)** · [Platforms](#platforms) · [Measured performance](#measured-performance) · [How it works](#how-it-works) · [FAQ](#faq)
 
-MIT（[许可说明](docs/LICENSING.md)）· Windows 10/11 x64 · Linux x86-64 · Android 8+ arm64（OpenGL ES 3.2）
+MIT ([licensing](docs/LICENSING.md)) · Windows 10/11 x64 · Linux x86-64 · Android 8+ arm64 (OpenGL ES 3.2)
 
 <p align="center">
-  <img src="docs/images/launcher-desktop.jpg" width="100%" alt="Digimon Battle Chronicle Recomp 桌面启动器：数码世界背景、光盘检查、存档与设置分页">
+  <img src="docs/images/launcher-desktop.jpg" width="100%" alt="Digimon Battle Chronicle Recomp desktop launcher over the Digital World background: disc check, saves and settings tabs">
 </p>
 <p align="center">
-  <img src="docs/images/battle-4p-android.jpg" width="49%" alt="Digimon Battle Chronicle Recomp 在 Android 上以 4× 内部分辨率进行四人对战，58 FPS，带触屏按键">
-  <img src="docs/images/launcher-android.jpg" width="49%" alt="Digimon Battle Chronicle Recomp 的 Android 启动器：光盘已验证、内部分辨率和画面设置">
+  <img src="docs/images/battle-4p-android.jpg" width="49%" alt="Digimon Battle Chronicle Recomp four-player battle on Android at 4x internal resolution, 58 FPS, touch controls shown">
+  <img src="docs/images/launcher-android.jpg" width="49%" alt="Digimon Battle Chronicle Recomp Android launcher: verified disc, internal resolution and display settings">
 </p>
 
-| 项目 | 事实 |
+| Item | Fact |
 |---|---|
-| 游戏 | 日版《デジモンバトルクロニクル》（G2DJB2 版本 0）；欧美版名为 *Digimon Rumble Arena 2* |
-| 运行方式 | 约 16.6 万个 PowerPC 代码块静态重编译成 C，编译为原生 x86-64 / ARM64；无模拟器、无解释器、无 BIOS |
-| 平台 | Windows 10/11 x64 · Linux x86-64 · Android 8+ arm64 |
-| 对战 | 四人同屏；手柄、键盘、触屏；桌面与 Android 启动器 |
-| 性能 | 骁龙 8 Gen 2 四人对战 58–60 场/秒，1× 与 4× 内部分辨率 |
-| 存档 | 标准 `MemoryCardA.raw`，可与 Dolphin 互通 |
-| 许可 | 项目代码 MIT；不含游戏数据，需自备光盘镜像 |
+| Game | Japanese release *Digimon Battle Chronicle* (デジモンバトルクロニクル, G2DJB2 revision 0); released overseas as *Digimon Rumble Arena 2* |
+| Method | About 166,000 PowerPC basic blocks statically recompiled to C and built as native x86-64 / ARM64; no emulator, interpreter or BIOS |
+| Platforms | Windows 10/11 x64 · Linux x86-64 · Android 8+ arm64 |
+| Players | Four-player local battles; controllers, keyboard, touch; desktop and Android launchers |
+| Performance | 58–60 fields/s in four-player battles on Snapdragon 8 Gen 2, at 1x and 4x internal resolution |
+| Saves | Standard `MemoryCardA.raw`, interchangeable with Dolphin |
+| License | Project code MIT; no game data included; bring your own disc |
 
-## 仓库里有什么，你要准备什么
+## What is here, what you bring
 
-仓库提供：PowerPC→C 重编译器（`port/tools/lift_dol.py`、`port/tools/gekko/`）、GameCube 硬件层（`port/hal/`：VI、SI、EXI 记忆卡、DI 光驱、DSP/AI、GX FIFO）、渲染与 AX 混音（基于 MIT 许可的 [gcn-recomp](https://github.com/ethannicholas/gcn-recomp)）、桌面与 Android 启动器、构建脚本和测试。
+This repository has the PowerPC-to-C recompiler (`port/tools/lift_dol.py`, `port/tools/gekko/`), the GameCube hardware layer (`port/hal/`: VI, SI, EXI memory card, DI, DSP/AI, GX FIFO), rendering and AX audio mixing built on the MIT-licensed [gcn-recomp](https://github.com/ethannicholas/gcn-recomp), desktop and Android launchers, build scripts and tests.
 
-**仓库不包含任何游戏程序、重编译生成的 C、美术、音频或存档，也不提供 ROM/ISO 下载或预编译程序。** 这些都由你的电脑从你自己的光盘镜像生成，生成的程序含有从光盘翻译出的代码，只供自己使用，不要分发。
+**It contains no game program, no generated C, no art, audio or saves, and it offers no ROM/ISO downloads or prebuilt programs.** Your machine generates them from your own disc. The resulting program contains code translated from the disc: keep it for yourself and do not distribute it.
 
-你需要：日版《デジモンバトルクロニクル》**G2DJB2 版本 0** 的镜像，`.iso` / `.gcm`，或 Dolphin 的 `.rvz` / `.gcz` / `.ciso`（会先导入成 ISO；`.wia` 请先在 Dolphin 里转成 ISO）。构建会校验光盘 ID、版本和 `main.dol` 指纹，对不上就停下。
+You need an image of the Japanese disc **G2DJB2, revision 0**: `.iso` / `.gcm`, or Dolphin `.rvz` / `.gcz` / `.ciso` (imported to ISO first; convert `.wia` to ISO in Dolphin). The build checks the game ID, revision and the `main.dol` fingerprint and stops on a mismatch.
 
-## 开始
+## Getting started
 
-### Windows（一键）
+### Download a builder kit (no game data)
 
-1. 下载本仓库（Code → Download ZIP，或 `git clone`）。
-2. 双击 `port/packaging/Build-Windows.bat`，在弹出的对话框里选你的光盘镜像（也可以把镜像拖到这个 bat 上）。
-3. 没装 [MSYS2](https://www.msys2.org) 时脚本会询问并用 winget 安装；之后自动装好 clang、CMake、Ninja、SDL2 和 Python。
+[Releases](../../releases/latest) carry `DigimonBattleGC-builder-<version>.zip`: the recompiler, hardware layer, launcher and build scripts of this repository, with no game data, no generated code and no prebuilt program. Unzip it and use the Windows or Linux steps below; building the Android APK needs the full repository. Inside the kit the build scripts sit at its root (`Build-Windows.bat`, `build.py`, `DigimonBattleGC/`); the paths below are for a clone.
 
-完成后游戏在 `port/packaging/DigimonBattleGC/`，同时生成 `DigimonBattleGC-<版本>-windows-amd64.zip` 方便自己备份。exe 是静态链接的，复制到别处也能运行。首次构建约 2–15 分钟，取决于 CPU。
+### Windows (one click)
 
-任何一步失败时，`port/packaging/` 下会出现 `build-report-<时间>.txt`，里面是失败步骤、工具版本和完整构建输出，不含游戏数据，提 issue 时附上它。
+1. Get the code: download the builder kit from Releases and unzip it, or download this repository (Code → Download ZIP, or `git clone`).
+2. Double-click `Build-Windows.bat` (at the kit's root, or `port/packaging/Build-Windows.bat` in a clone) and pick your disc image in the dialog (or drop the image onto the .bat).
+3. If [MSYS2](https://www.msys2.org) is missing the script offers to install it with winget, then installs clang, CMake, Ninja, SDL2 and Python itself.
+
+The game ends up in `port/packaging/DigimonBattleGC/`, with `DigimonBattleGC-<version>-windows-amd64.zip` beside it as your own backup. The exe is statically linked and runs from anywhere. A first build takes about 2–15 minutes depending on the CPU.
+
+If a step fails, `port/packaging/build-report-<time>.txt` records the step, tool versions and the full build output (no game data). Attach it to an issue.
 
 ### Linux
 
@@ -57,11 +61,11 @@ python3 port/packaging/build.py "/path/to/Digimon Battle Chronicle (Japan).iso"
 ./port/packaging/DigimonBattleGC/DigimonBattleGC
 ```
 
-不写路径时会在 `~/Downloads`、`~/Games` 等目录里找，或弹出文件选择框。
+Without a path it looks in `~/Downloads`, `~/Games` and similar folders, or opens a file dialog.
 
 ### Android
 
-先在电脑上跑一次上面的构建（它会把重编译结果写进 `port/recomp/`），然后用 Android SDK（platform 36、NDK 29、CMake 3.31、Gradle 9.6+）构建 APK：
+Run the desktop build above once from a clone (it writes the recompiled code into `port/recomp/`; the builder kit has the desktop sources only), then build the APK with the Android SDK (platform 36, NDK 29, CMake 3.31, Gradle 9.6+):
 
 ```sh
 cd port/android
@@ -70,94 +74,94 @@ gradle assembleRelease
 adb install -r app/build/outputs/apk/release/app-release.apk
 ```
 
-在手机启动器里选择光盘镜像（或「扫描 Download 目录」），镜像会复制到应用目录并被记住。详见 [port/android/README.md](port/android/README.md)。
+Choose the disc image in the phone's launcher (or scan the Download folder); it is copied into app storage and remembered. See [port/android/README.md](port/android/README.md).
 
-### 只想打包给别人自己构建
+### A kit for someone else to build
 
-`python3 port/packaging/make_kit.py` 生成不含任何游戏内容的自建包 `port/dist/DigimonBattleGC-builder-<版本>.zip`，打包器会拒绝重编译输出、光盘、镜像、截图和存档。
+`python3 port/packaging/make_kit.py` writes a self-build kit with no game content, `port/dist/DigimonBattleGC-builder-<version>.zip`; the packager refuses recompiler output, discs, images, screenshots and saves.
 
-## 支持的平台
+## Platforms
 
-| 平台 | 状态 | 要求 |
+| Platform | Status | Requirements |
 |---|---|---|
-| Windows | 可玩；启动器、手柄、键盘、记忆卡 | Windows 10/11 x64，OpenGL 3.3 显卡；用 MSYS2 CLANG64 构建（生成代码需要 clang/GCC 内建函数，不支持 MSVC） |
-| Linux | 可玩 | x86-64，clang、SDL2、OpenGL 3.3 |
-| Android | 可玩；Material 3 启动器、触屏按键、蓝牙手柄、折叠屏自适应 | arm64，Android 8.0（API 26）以上，OpenGL ES 3.2；骁龙 8 Gen 2 / Adreno 740 实测 |
+| Windows | Playable; launcher, controllers, keyboard, memory card | Windows 10/11 x64, OpenGL 3.3; built with MSYS2 CLANG64 (generated code needs clang/GCC builtins, MSVC is not supported) |
+| Linux | Playable | x86-64, clang, SDL2, OpenGL 3.3 |
+| Android | Playable; Material 3 launcher, touch controls, Bluetooth controllers, foldable layouts | arm64, Android 8.0 (API 26)+, OpenGL ES 3.2; measured on Snapdragon 8 Gen 2 / Adreno 740 |
 
-## 实测性能
+## Measured performance
 
-| 设备 | 结果 | 条件 |
+| Device | Result | Conditions |
 |---|---|---|
-| Android，骁龙 8 Gen 2 + Adreno 740 | 四人对战 **58–60 场/秒**，包括进入战斗的加载在内 0 次音频欠载 | 1× 与 4× 内部分辨率，四手柄自动回放 |
-| 同上，双人 | 持续对战约 **59.9 场/秒** | 1× 内部分辨率 |
-| Windows 桌面 | 完整对战并返回选人，SDL 播放 0 次欠载 | 自适应 80–350 ms 音频缓冲 |
+| Android, Snapdragon 8 Gen 2 + Adreno 740 | Four-player battle **58–60 fields/s**, zero audio underruns including the battle load | 1x and 4x internal resolution, scripted four-controller replay |
+| Same, two players | Sustained battle about **59.9 fields/s** | 1x |
+| Windows desktop | Full battle and return to character select, zero SDL playback underruns | adaptive 80–350 ms audio buffer |
 
-游戏按 NTSC 隔行 59.94 场/秒运行，场数比帧率更准确。四人对战曾只有 34 场/秒：每帧 8 次 HUD 头像纹理拷贝都会让 CPU 等完上一帧的顶点变换；现在按 upstream gcn-recomp 的方式在两帧后再把拷贝写回内存。
+The game runs NTSC interlaced at 59.94 fields per second, so fields per second is the honest measure. Four-player battles once ran at 34 fields/s: each of the eight HUD portrait texture copies per frame made the CPU wait for the previous frame's vertex transform. Copies now land in RAM two frames later, as upstream gcn-recomp does.
 
-## 游玩
+## Playing
 
-- **启动器**：桌面端运行程序即打开启动器，可设置窗口、全屏、内部分辨率（1×–4×）、画面比例、音量、按键映射；Android 启动器提供同样的常用设置。勾选「下次直接开始」可跳过启动器。
-- **按键与热键**、命令行参数、存档位置：见 [port/platform/desktop/upstream_gx/PLAYING.md](port/platform/desktop/upstream_gx/PLAYING.md)。
-- **存档** 是标准 GameCube 记忆卡镜像 `MemoryCardA.raw`，可以和 Dolphin 互相拷贝。
-- **触屏**：左侧任意位置按下即出现摇杆；按键会在没有手柄时显示，透明度、大小和震动可调；游戏震动会转到手机振动器。
+- **Launcher**: on desktop, running the program opens it: window, fullscreen, internal resolution (1x–4x), aspect, volume, key mapping. The Android launcher has the same common settings. Tick "start directly" to skip it next time.
+- **Controls, hotkeys**, command line and save locations: [port/platform/desktop/upstream_gx/PLAYING.md](port/platform/desktop/upstream_gx/PLAYING.md).
+- **Saves** are a standard GameCube memory card image, `MemoryCardA.raw`, interchangeable with Dolphin.
+- **Touch**: press anywhere on the left for the stick; buttons show while no controller is connected, with adjustable opacity, size and vibration. Game rumble goes to the phone's vibrator.
 
-## 工作原理
+## How it works
 
-- **静态重编译。** `lift_dol.py` 从光盘读出 `main.dol`，把 Gekko（PowerPC 750CL）指令按基本块翻译成 C：整数、浮点、配对单精度（paired single）、量化加载存储、锁定缓存 DMA 都有对应实现。结果是约 16.6 万个代码块、87 万条指令，与项目测试用的输出逐字节一致，构建时会核对数量。
-- **硬件层重写。** `port/hal/` 按 GameCube 寄存器语义实现中断、计时器、视频接口（按游戏写入的扫描寄存器算出 59.94 场/秒）、手柄串口、记忆卡、光驱和音频 DMA。
-- **图形与音频。** GX 命令流交给 gcn-recomp 的渲染器（OpenGL 3.3 / ES 3.2，可提升内部分辨率）；AX 音频由 gcn-recomp 的混音器处理，经独立音频线程送到 SDL。CPU、渲染、顶点变换、音频各在自己的线程上。
-- **节拍。** CPU 按 486 MHz 的 guest 时钟对齐真实时间，不绑定显示器刷新率，所以 120 Hz 屏幕也不会让游戏变快。
+- **Static recompilation.** `lift_dol.py` reads `main.dol` from the disc and translates Gekko (PowerPC 750CL) basic blocks to C, covering integer, floating point, paired singles, quantized loads/stores and locked-cache DMA: about 166,000 blocks and 873,000 instructions, byte-identical to the project's tested output, with the counts checked at build time.
+- **Hardware layer.** `port/hal/` implements interrupts, timers, the video interface (59.94 fields/s derived from the game's own timing registers), serial controllers, memory card, disc drive and audio DMA with GameCube register semantics.
+- **Graphics and audio.** The GX command stream goes to gcn-recomp's renderer (OpenGL 3.3 / ES 3.2, higher internal resolutions available); AX audio is mixed by gcn-recomp's mixer and played through SDL from its own thread. CPU, rendering, vertex transform and audio each have their own thread.
+- **Pacing.** The CPU is held to a 486 MHz guest clock against real time, not to the display's refresh rate, so a 120 Hz screen does not speed the game up.
 
-## 常见问题
+## FAQ
 
-### 这是模拟器吗？需要 BIOS 吗？
+### Is this an emulator? Does it need a BIOS?
 
-不是。构建时，`lift_dol.py` 把游戏光盘里的 PowerPC 机器码翻译成 C，再由 clang 编译成 x86-64 / ARM64 原生程序。运行时没有模拟器、解释器或 BIOS。也正因如此，你需要先用自己的光盘镜像完成一次构建。
+No. At build time, `lift_dol.py` translates the PowerPC machine code on the game disc to C, and clang compiles it into a native x86-64 / ARM64 program. There is no emulator, interpreter or BIOS at runtime. That is also why you need to build it once from your own disc image.
 
-### 需要哪个版本的游戏？欧美版 *Digimon Rumble Arena 2* 可以吗？
+### Which version of the game do I need? Does *Digimon Rumble Arena 2* work?
 
-只支持 GameCube 日版《デジモンバトルクロニクル》**G2DJB2 版本 0**。构建会校验光盘 ID、版本和 `main.dol` 指纹，欧美版、其他修订版或 PS2/Xbox 版都会在构建时被拒绝。镜像格式支持 `.iso` / `.gcm`，以及 Dolphin 的 `.rvz` / `.gcz` / `.ciso`（会先导入成 ISO）；`.wia` 请先在 Dolphin 里转成 ISO。
+Only the Japanese GameCube release *Digimon Battle Chronicle*, **G2DJB2 revision 0**. The build checks the game ID, revision and `main.dol` fingerprint, so overseas releases, other revisions and the PlayStation 2 or Xbox versions are rejected. `.iso` and `.gcm` are supported, as are Dolphin `.rvz` / `.gcz` / `.ciso` images (imported to ISO first); convert `.wia` to ISO in Dolphin.
 
-### 仓库里有游戏或现成程序吗？
+### Does the repository include the game or a prebuilt program?
 
-没有。仓库不包含游戏程序、重编译生成的 C、美术、音频或存档，也不提供 ROM/ISO 下载或预编译的 exe/APK。构建产物含有从你的光盘翻译出的代码，只供自己使用，不要分发。
+No. It contains no game program, generated C, art, audio or saves, and it offers no ROM/ISO downloads, prebuilt executables or APKs. A built program contains code translated from your disc: keep it for yourself and do not distribute it.
 
-### 支持哪些平台？
+### Which platforms are supported?
 
-Windows 10/11 x64、Linux x86-64、Android 8.0（API 26）及以上 arm64。Windows 需要 OpenGL 3.3 显卡，并用 MSYS2 CLANG64 构建（不支持 MSVC）；Android 需要 OpenGL ES 3.2。
+Windows 10/11 x64, Linux x86-64 and Android 8.0 (API 26)+ arm64. Windows needs an OpenGL 3.3 GPU and is built with MSYS2 CLANG64 (MSVC is not supported); Android needs OpenGL ES 3.2.
 
-### 能四人同屏吗？支持哪些手柄？
+### Can four people play locally? Which controllers work?
 
-可以。最多四个 SDL 手柄按连接顺序分配给 1–4 号玩家，支持 Xbox、PlayStation、Switch Pro 等常见手柄，游戏中可以插拔；键盘默认控制 1 号玩家，Android 上还有可调透明度和大小的触屏按键。
+Yes. Up to four SDL controllers are assigned to players 1–4 in connection order, including Xbox, PlayStation and Switch Pro controllers, and they can be plugged in or removed during play. The keyboard controls player 1 by default, and Android adds touch buttons with adjustable opacity and size.
 
-### 性能怎么样？
+### How fast does it run?
 
-在骁龙 8 Gen 2 / Adreno 740 上，四人对战在 1× 和 4× 内部分辨率下为 58–60 场/秒，包括进入战斗的加载在内 0 次音频欠载；双人持续对战约 59.9 场/秒。桌面端完整对战并返回选人，SDL 播放 0 次欠载。游戏按 NTSC 59.94 场/秒运行。
+On Snapdragon 8 Gen 2 / Adreno 740, four-player battles run at 58–60 fields/s at both 1x and 4x internal resolution, with zero audio underruns including the battle load. Two-player battles sustain about 59.9 fields/s. On desktop, a full battle and return to character select completes with zero SDL playback underruns. The game runs NTSC at 59.94 fields/s.
 
-### 存档能和 Dolphin 互通吗？
+### Are saves compatible with Dolphin?
 
-可以。存档是标准 GameCube 记忆卡镜像 `MemoryCardA.raw`，可以直接和 Dolphin 互相拷贝；59–2043 格的原始记忆卡也可以改名为 `MemoryCardA.raw` 使用。首次启动会自动创建并格式化记忆卡。
+Yes. Saves are standard GameCube memory card images named `MemoryCardA.raw`, and can be copied between this port and Dolphin. A raw card of 59–2043 blocks can also be renamed to `MemoryCardA.raw`. The first launch creates and formats the card automatically.
 
-### 构建失败了怎么办？
+### What should I do if the build fails?
 
-打开 `port/packaging/` 下的 `build-report-<时间>.txt`，里面记录了失败步骤、工具版本和完整构建输出，不含游戏数据。提 issue 时附上它，并先检查里面没有不想公开的本地路径。
+Open `build-report-<time>.txt` under `port/packaging/`. It records the failed step, tool versions and the full build output, with no game data. Attach it to an issue after checking that it contains no local paths you would rather keep private.
 
-### Android 版可以直接构建吗？
+### Can I build the Android version on its own?
 
-需要先在电脑上跑一次桌面构建，把重编译结果写进 `port/recomp/`，然后用 Android SDK（platform 36、NDK 29、CMake 3.31、Gradle 9.6+）构建 APK。详见 [Android 小节](#android) 和 [port/android/README.md](port/android/README.md)。
+Run the desktop build on a computer first so the recompiled code is written to `port/recomp/`, then build the APK with the Android SDK (platform 36, NDK 29, CMake 3.31, Gradle 9.6+). See the [Android section](#android) and [port/android/README.md](port/android/README.md).
 
-### 可以分享构建好的程序吗？
+### Can I share a build with someone else?
 
-不要分享构建产物，因为它含有从光盘翻译出的代码。可以分享 `make_kit.py` 生成的自建包（不含任何游戏内容），让对方用自己的光盘构建。
+Do not share the built program: it contains code translated from the disc. You can share the content-free self-build kit produced by `make_kit.py`, so the other person builds it from their own disc.
 
-## 贡献
+## Contributing
 
-欢迎 issue 和 PR。提问题时请附上 `build-report-*.txt` 或游戏日志（桌面：`%APPDATA%\DigimonBattleGC\logs`；Android：应用目录 `files/logs/session.log`），并确认里面没有你不想公开的路径。不要上传光盘、`main.dol`、重编译生成的代码、存档或游戏截图以外的游戏资源。
+Issues and pull requests are welcome. Attach `build-report-*.txt` or the game log (desktop: `%APPDATA%\DigimonBattleGC\logs`; Android: `files/logs/session.log` in app storage), after checking it holds no paths you would rather keep private. Never upload discs, `main.dol`, generated code, saves or other game assets.
 
-## 许可与声明
+## License and notices
 
-本项目自己的代码以 MIT 许可发布；第三方组件（gcn-recomp、Dear ImGui、SDL2、stb_image、glad）保留各自许可，见 [docs/LICENSING.md](docs/LICENSING.md)。
+This project's own code is MIT licensed; third-party components (gcn-recomp, Dear ImGui, SDL2, stb_image, glad) keep their own licenses, see [docs/LICENSING.md](docs/LICENSING.md).
 
-《デジモンバトルクロニクル》及数码宝贝相关名称、角色和美术归其各自权利人所有。本项目与 Bandai Namco、东映动画等权利人没有任何关联，也未获其认可。仓库不提供游戏，也不提供预编译的游戏程序。
+*Digimon Battle Chronicle* and the Digimon names, characters and artwork belong to their respective owners. This project is not affiliated with or endorsed by Bandai Namco, Toei Animation or any other rights holder. It provides no game and no prebuilt game programs.
 
-机器可读摘要（供 AI 助手与爬虫）：[llms.txt](llms.txt)
+Machine-readable summary for AI assistants and crawlers: [llms.txt](llms.txt)

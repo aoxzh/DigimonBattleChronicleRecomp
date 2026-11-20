@@ -1,6 +1,6 @@
 # Digimon Battle Chronicle Recomp · 『デジモンバトルクロニクル』GameCube ネイティブ移植
 
-[简体中文](README.md) · [English](README.en.md) · **日本語**
+[English](README.md) · [简体中文](README.zh.md) · **日本語**
 
 **日本版 GameCube ソフト『デジモンバトルクロニクル』（G2DJB2）を Windows、Linux、Android でネイティブに動かします。** 海外では *Digimon Rumble Arena 2* として発売されたタイトルです。ゲームの PowerPC マシンコードを C に静的リコンパイルし、本プロジェクトの GameCube ハードウェア層と一緒に x86-64 / ARM64 のネイティブプログラムへビルドします。エミュレーターもインタープリターも BIOS も不要です。ゲームのディスクイメージはご自身で用意してください。
 
@@ -38,13 +38,17 @@ MIT（[ライセンス](docs/LICENSING.md)）· Windows 10/11 x64 · Linux x86-6
 
 ## はじめに
 
+### ビルドキットのダウンロード（ゲームデータなし）
+
+[Releases](../../releases/latest) では `DigimonBattleGC-builder-<バージョン>.zip` を配布しています。本リポジトリと同じリコンパイラー、ハードウェア層、ランチャー、ビルドスクリプトが入っており、ゲームデータ、生成コード、ビルド済みプログラムは含みません。展開して、以下の Windows または Linux の手順を実行してください。Android の APK をビルドするにはリポジトリ全体が必要です。キット内のビルドスクリプトはキットのルート（`Build-Windows.bat`、`build.py`、`DigimonBattleGC/`）にあり、以下のパスはクローンしたリポジトリ向けです。
+
 ### Windows（ワンクリック）
 
-1. このリポジトリをダウンロード（Code → Download ZIP、または `git clone`）。
-2. `port/packaging/Build-Windows.bat` をダブルクリックし、ダイアログでディスクイメージを選択（`.bat` にイメージをドロップしても可）。
+1. コードを入手：Releases からビルドキットをダウンロードして展開するか、このリポジトリをダウンロード（Code → Download ZIP、または `git clone`）。
+2. `Build-Windows.bat`（キットのルート。クローンでは `port/packaging/Build-Windows.bat`）をダブルクリックし、ダイアログでディスクイメージを選択（`.bat` にイメージをドロップしても可）。
 3. [MSYS2](https://www.msys2.org) がない場合、スクリプトが winget でのインストールを確認し、その後 clang、CMake、Ninja、SDL2、Python を自動で導入します。
 
-完了するとゲームは `port/packaging/DigimonBattleGC/` に入り、隣に `DigimonBattleGC-<バージョン>-windows-amd64.zip` ができます。exe は静的リンクなので、どこへコピーしても動作します。初回ビルドは CPU に応じて約2～15分です。
+完了するとゲームは `port/packaging/DigimonBattleGC/`（キットではルートの `DigimonBattleGC/`）に入り、隣に `DigimonBattleGC-<バージョン>-windows-amd64.zip` ができます。exe は静的リンクなので、どこへコピーしても動作します。初回ビルドは CPU に応じて約2～15分です。
 
 失敗した場合は `port/packaging/build-report-<時刻>.txt` に、失敗した手順、ツールのバージョン、ビルド出力全体が記録されます（ゲームデータは含みません）。issue に添付してください。
 
@@ -61,7 +65,7 @@ python3 port/packaging/build.py "/path/to/Digimon Battle Chronicle (Japan).iso"
 
 ### Android
 
-まず上記のデスクトップビルドを一度実行します（リコンパイル結果が `port/recomp/` に書き込まれます）。次に Android SDK（platform 36、NDK 29、CMake 3.31、Gradle 9.6+）で APK をビルドします：
+まずリポジトリをクローンし、上記のデスクトップビルドを一度実行します（リコンパイル結果が `port/recomp/` に書き込まれます。ビルドキットはデスクトップ版のソースのみを含みます）。次に Android SDK（platform 36、NDK 29、CMake 3.31、Gradle 9.6+）で APK をビルドします：
 
 ```sh
 cd port/android

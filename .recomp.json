@@ -14,5 +14,5 @@
   "targets": ["Windows", "Linux", "Android"],
   "toolchain": "gcn-recomp",
   "approach": "Static recompilation of the Gekko (PowerPC 750CL) code to C by an in-repo lifter, on a hand-written GameCube hardware layer; gcn-recomp's GX renderer and AX mixer.",
-  "notes": "The Japanese release of Digimon Rumble Arena 2. Complete four-player battles run at 58-60 fields/s on Windows, Linux and Android; saves are standard GameCube memory cards (MemoryCardA.raw). Built locally from your own disc: the repository ships no game data and no prebuilt programs, and other regions, other revisions and the PS2/Xbox versions are rejected."
+  "notes": "The Japanese release of Digimon Rumble Arena 2. Complete four-player battles run at 58-60 fields/s on Windows, Linux and Android; saves are standard GameCube memory cards (MemoryCardA.raw). Built locally from your own disc: neither the repository nor its releases ship game data or a prebuilt game program, only a content-free self-build kit. Other regions, other revisions and the PS2/Xbox versions are rejected."
 }
